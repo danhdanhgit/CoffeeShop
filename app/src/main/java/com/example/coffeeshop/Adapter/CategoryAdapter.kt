@@ -4,18 +4,18 @@ import android.content.Context
 import android.content.Intent
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.coffeeshop.Activity.ItemsListActivity
-import com.example.coffeeshop.Domain.CategoryModel
+import com.example.coffeeshop.Data.Entity.Category
 import com.example.coffeeshop.R
 import com.example.coffeeshop.databinding.ViewholderCategoryBinding
 
 
-class CategoryAdapter(val items: MutableList<CategoryModel>) :
+class CategoryAdapter(val items: MutableList<Category>) :
     RecyclerView.Adapter<CategoryAdapter.Viewholder>() {
 
     private lateinit var context: Context
@@ -38,8 +38,12 @@ class CategoryAdapter(val items: MutableList<CategoryModel>) :
         holder: CategoryAdapter.Viewholder, position: Int
     ) {
         val item = items[position]
-        holder.binding.titleCat.text = item.title
-        //Gọi adapterPosition khi cần
+        holder.binding.titleCat.text = item.title //Sửa ở đây
+
+        //Glide.with(holder.itemView.context)
+            //.load(item.image)
+            //.into(holder.binding.pic)
+
         holder.binding.root.setOnClickListener {
             lastSelectedPosition = selectedPosition
             selectedPosition = position
@@ -48,13 +52,12 @@ class CategoryAdapter(val items: MutableList<CategoryModel>) :
 
             Handler(Looper.getMainLooper()).postDelayed({
                 val intent = Intent(context, ItemsListActivity::class.java).apply {
-                    putExtra("id", item.id.toString())
+                    putExtra("id", item.id)
                     putExtra("title", item.title)
                 }
                 ContextCompat.startActivity(context, intent, null)
             }, 500)
         }
-        //Kiểm tra xem item có phải là mục được chọn hay không và thay đổi giao diện
 
         if (selectedPosition == position){
             holder.binding.titleCat.setBackgroundResource(R.drawable.dark_brown_bg)

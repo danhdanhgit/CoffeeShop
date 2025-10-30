@@ -1,6 +1,14 @@
 package com.example.coffeeshop.Data.Entity
 
-data class Category (
-    val category_id: Int = 0,
-    val title: String = ""
+
+import com.google.gson.annotations.SerializedName
+
+
+data class Category(
+
+    @SerializedName("category_id")
+    val id: Int,
+
+    @SerializedName("title")
+    val title: String
 )
