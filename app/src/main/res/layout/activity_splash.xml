@@ -22,7 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="48dp"
-        android:text="@string/choice_your_nfavorite_coffee"
+        android:text="Hãy lựa chọn loại cà phê yêu thích của bạn"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="37sp"
@@ -39,7 +39,7 @@
         android:textColor="@color/white"
         android:textAlignment="center"
         android:textSize="20sp"
-        android:text="@string/the_best_grain_the_finest_roast_nthepowerfull_flavour"
+        android:text="Hạt cà phê tuyệt hảo, mẻ rang hoàn hảo và ly cà phê đậm đà "
         app:layout_constraintBottom_toTopOf="@+id/btnStart"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

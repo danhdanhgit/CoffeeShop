@@ -3,19 +3,17 @@ package com.example.coffeeshop.Activity
 import android.os.Bundle
 import android.view.View
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.coffeeshop.Adapter.ItemsListCategoryAdapter
-import com.example.coffeeshop.R
 import com.example.coffeeshop.ViewModel.MainViewModel
 import com.example.coffeeshop.databinding.ActivityItemsListBinding
 
 class ItemsListActivity : AppCompatActivity() {
     lateinit var binding: ActivityItemsListBinding
-    private val viewModel = MainViewModel()
+    private val viewModel: MainViewModel by viewModels()
     private var id: String = ""
     private var title: String = ""
 
@@ -46,8 +44,8 @@ class ItemsListActivity : AppCompatActivity() {
     }
 
     private fun getBundle() {
-        id = intent.getStringExtra("id")!!
-        title = intent.getStringExtra("title")!!
+        id = intent.getStringExtra("id") ?: ""
+        title = intent.getStringExtra("title") ?: ""
 
         binding.txtcategory.text = title
     }

@@ -2,6 +2,7 @@ package com.example.coffeeshop.Domain
 
 import java.io.Serializable
 
+//firebase
 data class ItemsModel(
     var title: String= "",
     var description: String= "",
