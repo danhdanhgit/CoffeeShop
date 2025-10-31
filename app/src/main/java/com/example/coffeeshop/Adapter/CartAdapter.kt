@@ -46,8 +46,8 @@ class CartAdapter(
         holder.binding.txtNumberItem.text = item.numberInCart.toString()
 
         Glide.with(holder.itemView.context)
-            .load(item.picUrl[0])
-            .apply(RequestOptions().transform(CenterCrop()))
+            .load(item.picUrl)
+            .centerCrop()
             .into(holder.binding.picCart)
 
         holder.binding.plusEachItem.setOnClickListener {
