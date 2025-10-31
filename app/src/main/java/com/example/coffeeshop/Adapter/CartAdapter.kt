@@ -8,14 +8,14 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.request.RequestOptions
 import com.example.coffeeshop.Activity.ChangeNumberItemsListener
-import com.example.coffeeshop.Activity.ManagmentCart
-import com.example.coffeeshop.Domain.ItemsModel
+import com.example.coffeeshop.Data.Entity.Product
+import com.example.coffeeshop.Helper.ManagmentCart
 import com.example.coffeeshop.databinding.ViewholderCartBinding
 
 class CartAdapter(
-    private val listItemSelected: ArrayList<ItemsModel>,
+    private val listItemSelected: ArrayList<Product>,
     context: Context,
-    var changeNumberItemsListener: ChangeNumberItemsListener?= null
+    var changeNumberItemsListener: ChangeNumberItemsListener? = null
     ): RecyclerView.Adapter<CartAdapter.Viewholder>()
 {
     class Viewholder (val binding: ViewholderCartBinding): RecyclerView.ViewHolder(binding.root)

@@ -29,5 +29,7 @@ data class Product(
     val rating: Float,
 
     @SerializedName("category_id")
-    val categoryId: Int
+    val categoryId: Int,
+
+    var numberInCart: Int = 0
 ) : Serializable

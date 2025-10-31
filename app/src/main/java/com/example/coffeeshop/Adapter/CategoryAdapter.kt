@@ -15,7 +15,7 @@ import com.example.coffeeshop.R
 import com.example.coffeeshop.databinding.ViewholderCategoryBinding
 
 
-class CategoryAdapter(val items: MutableList<Category>) :
+class CategoryAdapter(val items: List<Category>) :
     RecyclerView.Adapter<CategoryAdapter.Viewholder>() {
 
     private lateinit var context: Context

@@ -3,12 +3,9 @@ package com.example.coffeeshop.Activity
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.LinearLayoutCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.coffeeshop.Adapter.CartAdapter
-import com.example.coffeeshop.R
+import com.example.coffeeshop.Helper.ManagmentCart
 import com.example.coffeeshop.databinding.ActivityCartBinding
 
 

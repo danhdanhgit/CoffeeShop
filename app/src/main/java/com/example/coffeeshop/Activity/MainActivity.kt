@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
     //Hien thi cac Category
     private fun initCategory(){
         binding.progressBarCategory.visibility = View.VISIBLE
-        viewModel.loadCategory().observe(this@MainActivity) { list ->
+        viewModel.loadCategories().observe(this@MainActivity) { list ->
             binding.recyclerViewCat.layoutManager =
                 LinearLayoutManager(this@MainActivity, LinearLayoutManager.HORIZONTAL, false)
 

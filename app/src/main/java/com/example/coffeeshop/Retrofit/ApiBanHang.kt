@@ -40,4 +40,11 @@ interface ApiBanHang {
     fun getItemsByCategory(
         @Field("category_id") categoryId: Int
     ): Observable<ProductResponse>
+
+    //Lấy chi tiết sản phẩm
+    @POST("getproduct.php")
+    @FormUrlEncoded
+    fun getProductDetail(
+        @Field("product_id") productId: Int
+    ): Observable<ProductResponse>
 }

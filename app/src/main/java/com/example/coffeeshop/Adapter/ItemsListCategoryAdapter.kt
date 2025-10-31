@@ -11,7 +11,8 @@ import com.example.coffeeshop.Data.Entity.Product
 import com.example.coffeeshop.databinding.ViewholderItemPicLeftBinding
 import com.example.coffeeshop.databinding.ViewholderItemPicRightBinding
 
-class ItemsListCategoryAdapter(private val items: MutableList<Product>?) :
+// Sửa constructor để chấp nhận List<Product> thay vì MutableList<Product>?
+class ItemsListCategoryAdapter(private val items: List<Product>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
@@ -25,8 +26,9 @@ class ItemsListCategoryAdapter(private val items: MutableList<Product>?) :
         return if (position % 2 == 0) TYPE_ITEM_RIGHT else TYPE_ITEM_LEFT
     }
 
+    // Sửa lại cho phù hợp với List không thể null
     override fun getItemCount(): Int {
-        return items?.size ?: 0
+        return items.size
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -46,11 +48,11 @@ class ItemsListCategoryAdapter(private val items: MutableList<Product>?) :
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        items?.get(position)?.let { item ->
-            when (holder) {
-                is ViewholderItem1 -> bindRightViewHolder(holder, item)
-                is ViewholderItem2 -> bindLeftViewHolder(holder, item)
-            }
+        // Lấy item trực tiếp vì list không thể null
+        val item = items[position]
+        when (holder) {
+            is ViewholderItem1 -> bindRightViewHolder(holder, item)
+            is ViewholderItem2 -> bindLeftViewHolder(holder, item)
         }
     }
 
@@ -61,12 +63,13 @@ class ItemsListCategoryAdapter(private val items: MutableList<Product>?) :
             ratingBar.rating = item.rating
 
             Glide.with(context)
-                .load(item.picUrl) // FIX: Use the full URL string
+                .load(item.picUrl)
                 .into(picMain)
 
             holder.itemView.setOnClickListener {
                 val intent = Intent(context, DetailActivity::class.java)
-                intent.putExtra("object", item)
+                // SỬA LỖI: Gửi đúng key là "product_id" mà DetailActivity đang nhận
+                intent.putExtra("product_id", item.id)
                 context.startActivity(intent)
             }
         }
@@ -79,12 +82,13 @@ class ItemsListCategoryAdapter(private val items: MutableList<Product>?) :
             ratingBar.rating = item.rating
 
             Glide.with(context)
-                .load(item.picUrl) // FIX: Use the full URL string
+                .load(item.picUrl)
                 .into(picMain)
 
             holder.itemView.setOnClickListener {
                 val intent = Intent(context, DetailActivity::class.java)
-                intent.putExtra("object", item)
+                // SỬA LỖI: Gửi đúng key là "product_id" mà DetailActivity đang nhận
+                intent.putExtra("product_id", item.id)
                 context.startActivity(intent)
             }
         }
