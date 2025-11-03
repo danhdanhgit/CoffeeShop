@@ -14,57 +14,57 @@ import retrofit2.http.POST
 
 interface ApiBanHang {
 
-    //Đăng ký tài khoản
-    @POST("register.php")
-    @FormUrlEncoded
-    fun registerUser(
-        @Field("email") email: String,
-        @Field("password") password: String,
-        @Field("username") username: String,
-        @Field("phone") phone: String
-    ): Observable<UserModel>
+	//Đăng ký tài khoản
+	@POST("register.php")
+	@FormUrlEncoded
+	fun registerUser(
+		@Field("email") email: String,
+		@Field("password") password: String,
+		@Field("username") username: String,
+		@Field("phone") phone: String
+	): Observable<UserModel>
 
-    //Đăng nhập
-    @POST("login.php")
-    @FormUrlEncoded
-    fun login(
-        @Field("email") email: String,
-        @Field("password") pass: String
-    ): Observable<LoginResponse>
+	//Đăng nhập
+	@POST("login.php")
+	@FormUrlEncoded
+	fun login(
+		@Field("email") email: String,
+		@Field("password") pass: String
+	): Observable<LoginResponse>
 
-    //Lấy danh sách danh mục
-    @GET("getcategory.php")
-    fun getCategory(): Observable<CategoryResponse>
+	//Lấy danh sách danh mục
+	@GET("getcategory.php")
+	fun getCategory(): Observable<CategoryResponse>
 
-    //Lấy sản phẩm theo danh mục
-    @POST("getItemsList.php")
-    @FormUrlEncoded
-    fun getItemsByCategory(
-        @Field("category_id") categoryId: Int
-    ): Observable<ProductResponse>
+	//Lấy sản phẩm theo danh mục
+	@POST("getItemsList.php")
+	@FormUrlEncoded
+	fun getItemsByCategory(
+		@Field("category_id") categoryId: Int
+	): Observable<ProductResponse>
 
-    //Lấy chi tiết sản phẩm
-    @POST("getProduct.php")
-    @FormUrlEncoded
-    fun getProductDetail(
-        @Field("product_id") productId: Int
-    ): Observable<ProductResponse>
+	//Lấy chi tiết sản phẩm
+	@POST("getproduct.php")
+	@FormUrlEncoded
+	fun getProductDetail(
+		@Field("product_id") productId: Int
+	): Observable<ProductResponse>
 
-    //Lấy thông tin chi tiết user
-    @POST("getuser.php")
-    @FormUrlEncoded
-    fun getUserDetail(
-        @Field("user_id") userId: Int
-    ): Observable<UserDetailResponse>
+	//Lấy thông tin chi tiết user
+	@POST("getuser.php")
+	@FormUrlEncoded
+	fun getUserDetail(
+		@Field("user_id") userId: Int
+	): Observable<UserDetailResponse>
 
-    //Lấy danh sách đơn hàng của user
-    @POST("getOrders.php")
-    @FormUrlEncoded
-    fun getOrders(
-        @Field("user_id") userId: Int
-    ): Observable<OrderResponse>
+	//Lấy danh sách đơn hàng của user
+	@POST("getorders.php")
+	@FormUrlEncoded
+	fun getOrders(
+		@Field("user_id") userId: Int
+	): Observable<OrderResponse>
 
-    //Lấy tất cả sản phẩm (cho chức năng tìm kiếm)
-    @GET("getAllProducts.php")
-    fun getAllProducts(): Observable<ProductResponse>
+	//Lấy tất cả sản phẩm (cho chức năng tìm kiếm)
+	@GET("getallproducts.php")
+	fun getAllProducts(): Observable<ProductResponse>
 }

@@ -17,7 +17,8 @@ import java.io.IOException
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
-    private lateinit var apiBanHang: ApiBanHang
+    // --- SỬA LỖI: Lấy trực tiếp apiService từ RetrofitClient ---
+    private val apiBanHang: ApiBanHang = RetrofitClient.apiService
     private val compositeDisposable = CompositeDisposable()
     private lateinit var sharedPreferences: SharedPreferences
 
@@ -26,9 +27,6 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Khởi tạo apiBanHang
-        apiBanHang = RetrofitClient.getInstance("http://192.168.88.166/coffeeshop/").create(ApiBanHang::class.java)
-        
         // Khởi tạo SharedPreferences
         sharedPreferences = getSharedPreferences("USER_PREFS", MODE_PRIVATE)
 
@@ -69,7 +67,7 @@ class LoginActivity : AppCompatActivity() {
                 if (response.success) {
                     // Lấy thông tin user từ kết quả trả về
                     val user = response.result.firstOrNull()
-                    
+
                     if (user != null) {
                         // Lưu thông tin user vào SharedPreferences
                         sharedPreferences.edit().apply {
@@ -80,7 +78,7 @@ class LoginActivity : AppCompatActivity() {
                             apply()
                         }
                     }
-                    
+
                     Toast.makeText(this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show()
 
                     // Chuyển sang màn hình chính

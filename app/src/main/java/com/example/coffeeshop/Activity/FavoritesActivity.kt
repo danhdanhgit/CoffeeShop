@@ -47,8 +47,7 @@ class FavoritesActivity : AppCompatActivity() {
             binding.txtEmpty.visibility = View.GONE
             binding.recyclerViewFavorites.visibility = View.VISIBLE
 
-            // Sử dụng PopularAdapter nhưng cần đảm bảo click vào sản phẩm sẽ mở DetailActivity
-            // PopularAdapter đã có sẵn chức năng này nên không cần thay đổi
+
             favoritesAdapter = PopularAdapter(ArrayList(favoritesList))
             binding.recyclerViewFavorites.layoutManager = GridLayoutManager(this, 2)
             binding.recyclerViewFavorites.adapter = favoritesAdapter

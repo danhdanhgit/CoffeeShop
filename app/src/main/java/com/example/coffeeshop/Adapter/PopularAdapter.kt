@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.coffeeshop.Activity.DetailActivity
 import com.example.coffeeshop.Data.Entity.Product
+import com.example.coffeeshop.Domain.ItemsModel
 import com.example.coffeeshop.databinding.ViewholderPopularBinding
 
 // Sửa lại để chấp nhận một danh sách có thể thay đổi và sử dụng Product

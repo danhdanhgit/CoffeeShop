@@ -13,7 +13,7 @@ data class UserDetailResponse(
     val message: String,
 
     @SerializedName("result")
-    val result: UserDetail?
+    val result: List<UserDetail>?
 )
 
 

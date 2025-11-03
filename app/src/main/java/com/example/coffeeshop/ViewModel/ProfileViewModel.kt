@@ -24,8 +24,9 @@ class ProfileViewModel(application: Application) : AndroidViewModel(application)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ response ->
-                    if (response.success && response.result != null) {
-                        _userDetail.postValue(response.result)
+                    if (response.success) {
+                        val user = response.result?.firstOrNull()
+                        _userDetail.postValue(user)
                     } else {
                         Log.w("ProfileViewModel", "loadUserDetail was not successful")
                         _userDetail.postValue(null)

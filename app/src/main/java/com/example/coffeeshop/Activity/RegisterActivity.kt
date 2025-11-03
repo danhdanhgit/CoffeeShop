@@ -18,8 +18,8 @@ import java.io.IOException
 class RegisterActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRegisterBinding
-    //Khai báo ApiBanHang để gọi API
-    private lateinit var apiBanHang: ApiBanHang
+    // --- SỬA LỖI: Lấy trực tiếp apiService từ RetrofitClient ---
+    private val apiBanHang: ApiBanHang = RetrofitClient.apiService
     //Dùng để quản lý các lời gọi API bất đồng bộ
     private val compositeDisposable = CompositeDisposable()
 
@@ -29,9 +29,6 @@ class RegisterActivity : AppCompatActivity() {
         // Khởi tạo view binding
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        // Khởi tạo các thành phần khác sau(ipconfig)
-        apiBanHang = RetrofitClient.getInstance("http://192.168.88.166/coffeeshop/").create(ApiBanHang::class.java)
 
         //Set onClickListener cho nút đăng ký
         binding.btndangky.setOnClickListener {

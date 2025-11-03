@@ -6,9 +6,9 @@ import com.google.gson.annotations.SerializedName
 
 data class Category(
 
-    @SerializedName("category_id")
-    val id: Int,
+	@SerializedName(value = "category_id", alternate = ["id", "categoryId"])
+	val id: Int,
 
-    @SerializedName("title")
-    val title: String
+	@SerializedName(value = "title", alternate = ["name", "category_name"])
+	val title: String
 )

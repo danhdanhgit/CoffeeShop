@@ -16,9 +16,8 @@ import com.google.firebase.database.ValueEventListener
 import io.reactivex.rxjava3.core.Observable
 
 class MainRepository(private val context: Context) {
-    private val apiBanHang: ApiBanHang by lazy {
-        RetrofitClient.getInstance("http://192.168.88.166/coffeeshop/").create(ApiBanHang::class.java)
-    }
+    // --- SỬA LỖI: Lấy trực tiếp apiService từ RetrofitClient ---
+    private val apiBanHang: ApiBanHang = RetrofitClient.apiService
 
     // Trả về trực tiếp Observable từ Retrofit
     fun loadCategory(): Observable<CategoryResponse> {

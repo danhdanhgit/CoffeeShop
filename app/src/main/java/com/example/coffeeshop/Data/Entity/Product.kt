@@ -28,6 +28,9 @@ data class Product(
     @SerializedName("rating")
     val rating: Float,
 
+    @SerializedName("is_popular")
+    val isPopular: Int,
+
     @SerializedName("category_id")
     val categoryId: Int,
 
