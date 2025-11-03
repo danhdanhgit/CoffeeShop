@@ -2,7 +2,9 @@ package com.example.coffeeshop.Repository
 
 import android.content.Context
 import com.example.coffeeshop.Data.Entity.CategoryResponse
+import com.example.coffeeshop.Data.Entity.OrderResponse
 import com.example.coffeeshop.Data.Entity.ProductResponse
+import com.example.coffeeshop.Data.Entity.UserDetailResponse
 import com.example.coffeeshop.Domain.BannerModel
 import com.example.coffeeshop.Domain.ItemsModel
 import com.example.coffeeshop.Retrofit.ApiBanHang
@@ -31,6 +33,21 @@ class MainRepository(private val context: Context) {
     // Trả về trực tiếp Observable từ Retrofit
     fun loadProductDetail(productId: Int): Observable<ProductResponse> {
         return apiBanHang.getProductDetail(productId)
+    }
+
+    // Lấy thông tin chi tiết user
+    fun loadUserDetail(userId: Int): Observable<UserDetailResponse> {
+        return apiBanHang.getUserDetail(userId)
+    }
+
+    // Lấy danh sách đơn hàng
+    fun loadOrders(userId: Int): Observable<OrderResponse> {
+        return apiBanHang.getOrders(userId)
+    }
+
+    // Lấy tất cả sản phẩm (cho tìm kiếm)
+    fun loadAllProducts(): Observable<ProductResponse> {
+        return apiBanHang.getAllProducts()
     }
 
     // ----- Các hàm Firebase được giữ lại để không làm hỏng các phần khác của ứng dụng -----

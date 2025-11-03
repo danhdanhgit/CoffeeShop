@@ -26,7 +26,7 @@ class ItemsListCategoryAdapter(private val items: List<Product>) :
         return if (position % 2 == 0) TYPE_ITEM_RIGHT else TYPE_ITEM_LEFT
     }
 
-    // Sửa lại cho phù hợp với List không thể null
+
     override fun getItemCount(): Int {
         return items.size
     }

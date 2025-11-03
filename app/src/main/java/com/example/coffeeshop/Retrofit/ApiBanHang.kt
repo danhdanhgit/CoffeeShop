@@ -2,7 +2,9 @@ package com.example.coffeeshop.Retrofit
 
 import com.example.coffeeshop.Data.Entity.CategoryResponse
 import com.example.coffeeshop.Data.Entity.LoginResponse
+import com.example.coffeeshop.Data.Entity.OrderResponse
 import com.example.coffeeshop.Data.Entity.ProductResponse
+import com.example.coffeeshop.Data.Entity.UserDetailResponse
 import com.example.coffeeshop.Data.Entity.UserModel
 import io.reactivex.rxjava3.core.Observable
 import retrofit2.http.Field
@@ -42,9 +44,27 @@ interface ApiBanHang {
     ): Observable<ProductResponse>
 
     //Lấy chi tiết sản phẩm
-    @POST("getproduct.php")
+    @POST("getProduct.php")
     @FormUrlEncoded
     fun getProductDetail(
         @Field("product_id") productId: Int
     ): Observable<ProductResponse>
+
+    //Lấy thông tin chi tiết user
+    @POST("getuser.php")
+    @FormUrlEncoded
+    fun getUserDetail(
+        @Field("user_id") userId: Int
+    ): Observable<UserDetailResponse>
+
+    //Lấy danh sách đơn hàng của user
+    @POST("getOrders.php")
+    @FormUrlEncoded
+    fun getOrders(
+        @Field("user_id") userId: Int
+    ): Observable<OrderResponse>
+
+    //Lấy tất cả sản phẩm (cho chức năng tìm kiếm)
+    @GET("getAllProducts.php")
+    fun getAllProducts(): Observable<ProductResponse>
 }

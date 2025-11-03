@@ -1,13 +1,16 @@
 package com.example.coffeeshop.Activity
 
+import android.graphics.PorterDuff
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.bumptech.glide.Glide
 import com.example.coffeeshop.Data.Entity.Product
 import com.example.coffeeshop.Helper.ManagmentCart
+import com.example.coffeeshop.Helper.ManagmentFavorites
 import com.example.coffeeshop.R
 import com.example.coffeeshop.ViewModel.MainViewModel
 import com.example.coffeeshop.databinding.ActivityDetailBinding
@@ -16,6 +19,8 @@ class DetailActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDetailBinding
     private val viewModel: MainViewModel by viewModels()
     private lateinit var managmentCart: ManagmentCart
+    private lateinit var managmentFavorites: ManagmentFavorites
+    private var currentProduct: Product? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,9 +28,11 @@ class DetailActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         managmentCart = ManagmentCart(this)
+        managmentFavorites = ManagmentFavorites(this)
 
         getIntentDataAndLoad()
         initSizeList()
+        initFavoriteButton()
     }
 
     private fun getIntentDataAndLoad() {
@@ -61,6 +68,7 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun setupUI(item: Product) {
+        currentProduct = item
         binding.apply {
             // Tải ảnh sản phẩm bằng Glide
             Glide.with(this@DetailActivity)
@@ -73,6 +81,9 @@ class DetailActivity : AppCompatActivity() {
             txtPrice.text = "${item.price} Đ"
             txtRating.text = item.rating.toString()
             txtNumberItem.text = item.numberInCart.toString()
+
+            // Cập nhật trạng thái favorite button
+            updateFavoriteButton(item)
 
             // Xử lý sự kiện thêm vào giỏ hàng
             btnAddToCart.setOnClickListener {
@@ -98,6 +109,29 @@ class DetailActivity : AppCompatActivity() {
                     txtNumberItem.text = item.numberInCart.toString()
                 }
             }
+        }
+    }
+
+    private fun initFavoriteButton() {
+        binding.btnFav.setOnClickListener {
+            currentProduct?.let { product ->
+                managmentFavorites.toggleFavorite(product)
+                updateFavoriteButton(product)
+            }
+        }
+    }
+
+    private fun updateFavoriteButton(product: Product) {
+        val isFavorite = managmentFavorites.isFavorite(product.id)
+        if (isFavorite) {
+            // Đổi màu đỏ
+            binding.btnFav.setColorFilter(
+                ContextCompat.getColor(this, R.color.orange),
+                PorterDuff.Mode.SRC_IN
+            )
+        } else {
+            // Màu trắng
+            binding.btnFav.clearColorFilter()
         }
     }
 

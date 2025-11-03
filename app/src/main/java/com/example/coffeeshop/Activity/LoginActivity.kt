@@ -1,6 +1,7 @@
 package com.example.coffeeshop.Activity
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -18,6 +19,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
     private lateinit var apiBanHang: ApiBanHang
     private val compositeDisposable = CompositeDisposable()
+    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +28,9 @@ class LoginActivity : AppCompatActivity() {
 
         // Khởi tạo apiBanHang
         apiBanHang = RetrofitClient.getInstance("http://192.168.88.166/coffeeshop/").create(ApiBanHang::class.java)
+        
+        // Khởi tạo SharedPreferences
+        sharedPreferences = getSharedPreferences("USER_PREFS", MODE_PRIVATE)
 
         initControl()
     }
@@ -64,13 +69,24 @@ class LoginActivity : AppCompatActivity() {
                 if (response.success) {
                     // Lấy thông tin user từ kết quả trả về
                     val user = response.result.firstOrNull()
+                    
+                    if (user != null) {
+                        // Lưu thông tin user vào SharedPreferences
+                        sharedPreferences.edit().apply {
+                            putInt("USER_ID", user.id)
+                            putString("USER_NAME", user.username)
+                            putString("USER_EMAIL", user.email)
+                            putString("USER_PHONE", user.phone)
+                            apply()
+                        }
+                    }
+                    
                     Toast.makeText(this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show()
 
-                    // TODO: Chuyển sang màn hình chính và truyền dữ liệu người dùng qua Intent
-                     val intent = Intent(this, MainActivity::class.java)
-                     intent.putExtra("USER_NAME", user?.username)
-                     startActivity(intent)
-                     finish()
+                    // Chuyển sang màn hình chính
+                    val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
+                    finish()
 
                 } else {
                     Toast.makeText(this, "Đăng nhập thất bại: ${response.message}", Toast.LENGTH_LONG).show()

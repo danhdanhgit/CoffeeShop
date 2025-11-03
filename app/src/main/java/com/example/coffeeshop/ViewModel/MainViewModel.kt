@@ -18,7 +18,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val repository = MainRepository(application)
     private val compositeDisposable = CompositeDisposable()
 
-    // --- LiveData cho các màn hình (API/Retrofit) ---
+
     private val _categories = MutableLiveData<List<Category>>()
     val categories: LiveData<List<Category>> = _categories
 
@@ -98,15 +98,34 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         compositeDisposable.clear()
     }
 
-    // --- Các hàm Firebase được giữ lại ---
-    // LƯU Ý: Các hàm này vẫn chưa nhất quán với kiến trúc chung vì chúng trả về LiveData trực tiếp.
-    // Để có một kiến trúc hoàn hảo, cần tái cấu trúc cả Repository cho các hàm này.
-    // Tuy nhiên, việc giữ lại chúng sẽ không làm hỏng các phần khác của ứng dụng.
+
     fun loadBanner(): LiveData<MutableList<BannerModel>> {
         return repository.loadBanner()
     }
 
     fun loadPopular(): LiveData<MutableList<ItemsModel>> {
         return repository.loadPopular()
+    }
+
+    private val _allProducts = MutableLiveData<List<Product>>()
+    val allProducts: LiveData<List<Product>> = _allProducts
+
+    fun loadAllProducts() {
+        compositeDisposable.add(
+            repository.loadAllProducts()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ response ->
+                    if (response.success) {
+                        _allProducts.postValue(response.result ?: emptyList())
+                    } else {
+                        Log.w("MainViewModel", "loadAllProducts was not successful")
+                        _allProducts.postValue(emptyList())
+                    }
+                }, { error ->
+                    Log.e("MainViewModel", "loadAllProducts error: ${error.message}")
+                    _allProducts.postValue(emptyList())
+                })
+        )
     }
 }
