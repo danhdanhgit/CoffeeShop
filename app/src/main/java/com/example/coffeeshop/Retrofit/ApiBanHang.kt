@@ -85,6 +85,6 @@ interface ApiBanHang {
 	@POST("search.php")
 	@FormUrlEncoded
 	fun search(
-		@Field("query") query: String
+		@Field("search") query: String
 	): Observable<ProductResponse>
 }

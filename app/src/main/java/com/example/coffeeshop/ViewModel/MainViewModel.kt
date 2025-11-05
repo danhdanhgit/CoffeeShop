@@ -14,6 +14,13 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 
+// Sealed class để quản lý các trạng thái của kết quả tìm kiếm
+sealed class SearchResultState {
+    object Loading : SearchResultState()
+    data class Success(val products: List<Product>) : SearchResultState()
+    data class Error(val message: String) : SearchResultState()
+}
+
 class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val repository = MainRepository(application)
     private val compositeDisposable = CompositeDisposable()
@@ -28,8 +35,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val _productDetail = MutableLiveData<Product?>()
     val productDetail: LiveData<Product?> = _productDetail
 
-    private val _searchResults = MutableLiveData<List<Product>>()
-    val searchResults: LiveData<List<Product>> = _searchResults
+    private val _searchResults = MutableLiveData<SearchResultState>()
+    val searchResults: LiveData<SearchResultState> = _searchResults
 
     // --- Các hàm để gọi từ Activity/Fragment (Tất cả đều trả về Unit) ---
 
@@ -96,24 +103,23 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun searchProducts(query: String) {
-        if (query.isEmpty()) {
-            _searchResults.postValue(emptyList())
+        if (query.isBlank()) {
+            _searchResults.postValue(SearchResultState.Success(emptyList()))
             return
         }
+        _searchResults.postValue(SearchResultState.Loading)
         compositeDisposable.add(
             repository.searchProducts(query)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ response ->
                     if (response.success) {
-                        _searchResults.postValue(response.result ?: emptyList())
+                        _searchResults.postValue(SearchResultState.Success(response.result ?: emptyList()))
                     } else {
-                        Log.w("MainViewModel", "Search was not successful: ${response.message}")
-                        _searchResults.postValue(emptyList())
+                        _searchResults.postValue(SearchResultState.Error(response.message ?: "Lỗi không xác định"))
                     }
                 }, { error ->
-                    Log.e("MainViewModel", "Search error: ${error.message}")
-                    _searchResults.postValue(emptyList())
+                    _searchResults.postValue(SearchResultState.Error(error.message ?: "Lỗi kết nối mạng"))
                 })
         )
     }
