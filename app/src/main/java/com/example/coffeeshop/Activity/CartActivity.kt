@@ -1,18 +1,37 @@
 package com.example.coffeeshop.Activity
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.coffeeshop.Adapter.CartAdapter
+import com.example.coffeeshop.Data.Entity.Order
+import com.example.coffeeshop.Data.Entity.OrderCreateResponse
+import com.example.coffeeshop.Data.Entity.OrderItem
 import com.example.coffeeshop.Helper.ManagmentCart
+import com.example.coffeeshop.Helper.TinyDB
+import com.example.coffeeshop.Retrofit.ApiBanHang
+import com.example.coffeeshop.Retrofit.RetrofitClient
 import com.example.coffeeshop.databinding.ActivityCartBinding
+import com.example.coffeeshop.databinding.DialogOrderSuccessBinding
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.schedulers.Schedulers
+import org.json.JSONArray
+import org.json.JSONObject
 
 
 class CartActivity : AppCompatActivity() {
     lateinit var binding: ActivityCartBinding
     lateinit var managmentCart: ManagmentCart
     private var tax : Double = 0.0
+
+    private val apiBanHang: ApiBanHang = RetrofitClient.apiService
+    private val compositeDisposable = CompositeDisposable()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -45,6 +64,103 @@ class CartActivity : AppCompatActivity() {
 
     private fun setVariable() {
         binding.btnBack.setOnClickListener { finish() }
+
+        binding.btnPayment.setOnClickListener {
+            val name = binding.edtCustomerName.text?.toString()?.trim() ?: ""
+            val phone = binding.edtCustomerPhone.text?.toString()?.trim() ?: ""
+            val address = binding.edtCustomerAddress.text?.toString()?.trim() ?: ""
+
+            if (name.isEmpty() || phone.isEmpty() || address.isEmpty()) {
+                AlertDialog.Builder(this)
+                    .setTitle("Thiếu thông tin")
+                    .setMessage("Vui lòng nhập đủ Tên, Số điện thoại và Địa chỉ để thanh toán.")
+                    .setPositiveButton("OK", null)
+                    .show()
+                return@setOnClickListener
+            }
+
+            val percentTax = 0.02
+            val delivery = 15000
+            val cartItems = managmentCart.getListCart()
+            val itemsTotal = cartItems.sumOf { it.price * it.numberInCart }
+            val taxLocal = Math.round((itemsTotal * percentTax) * 100) / 100.0
+            val totalLocal = Math.round((itemsTotal + taxLocal + delivery) * 100) / 100.0
+
+            // items JSON
+            val itemsArray = JSONArray()
+            cartItems.forEach {
+                val obj = JSONObject()
+                obj.put("product_id", it.id)
+                obj.put("qty", it.numberInCart)
+                obj.put("price", it.price)
+                itemsArray.put(obj)
+            }
+
+            // Gọi API tạo đơn (nếu backend sẵn sàng); nếu fail, vẫn hiển thị popup và lưu local
+
+            compositeDisposable.add(
+                apiBanHang.createOrder(
+                    userId = getSharedPreferences("USER_PREFS", MODE_PRIVATE).getInt("USER_ID", 0),
+                    customerName = name,
+                    customerPhone = phone,
+                    customerAddress = address,
+                    total = totalLocal,
+                    itemsJson = itemsArray.toString()
+                )
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe({ _: OrderCreateResponse ->
+                        showSuccessAndNavigate(name, totalLocal)
+                    }, { _ ->
+                        // fallback nếu lỗi
+                        saveLocalOrder(name, phone, address, totalLocal, cartItems)
+                        showSuccessAndNavigate(name, totalLocal)
+                    })
+            )
+        }
+    }
+
+    private fun saveLocalOrder(name: String, phone: String, address: String, totalLocal: Double, items: ArrayList<com.example.coffeeshop.Data.Entity.Product>) {
+        val orderItems = items.map {
+            OrderItem(
+                orderItemId = 0,
+                orderId = 0,
+                productId = it.id,
+                quantity = it.numberInCart,
+                price = it.price,
+                productTitle = it.title,
+                productUrl = it.picUrl
+            )
+        }
+        val localOrder = Order(
+            orderId = (System.currentTimeMillis() / 1000L).toInt(),
+            userId = 0,
+            customerName = name,
+            customerPhone = phone,
+            customerAddress = address,
+            total = totalLocal.toFloat(),
+            status = "pending",
+            createdAt = "",
+            items = orderItems
+        )
+        val tiny = TinyDB(this)
+        tiny.putObject("LocalLastOrder", localOrder)
+    }
+
+    private fun showSuccessAndNavigate(name: String, totalLocal: Double) {
+        val dialogBinding = DialogOrderSuccessBinding.inflate(LayoutInflater.from(this))
+        dialogBinding.tvMessage.text = "Cảm ơn $name!\nĐơn hàng của bạn đã được ghi nhận. Tổng: ${totalLocal} Đ"
+        val dialog = AlertDialog.Builder(this)
+            .setView(dialogBinding.root)
+            .setCancelable(false)
+            .create()
+        dialogBinding.btnOk.setOnClickListener {
+            dialog.dismiss()
+            managmentCart.clearCart()
+            startActivity(Intent(this, OrderActivity::class.java))
+            finish()
+        }
+        dialog.show()
     }
 
     private fun calculateCart() {
@@ -60,5 +176,10 @@ class CartActivity : AppCompatActivity() {
             txtDelivery.text = "${delivery} Đ"
             txtTotal.text = "${total} Đ"
         }
+    }
+
+    override fun onDestroy() {
+        compositeDisposable.clear()
+        super.onDestroy()
     }
 }

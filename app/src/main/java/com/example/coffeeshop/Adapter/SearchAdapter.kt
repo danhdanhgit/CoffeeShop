@@ -8,44 +8,51 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.coffeeshop.Activity.DetailActivity
 import com.example.coffeeshop.Data.Entity.Product
-import com.example.coffeeshop.Domain.ItemsModel
-import com.example.coffeeshop.databinding.ViewholderPopularBinding
+import com.example.coffeeshop.databinding.ViewholderItemPicLeftBinding
 
-// Sửa lại để chấp nhận một danh sách có thể thay đổi và sử dụng Product
-class PopularAdapter(private var items: MutableList<Product>) : RecyclerView.Adapter<PopularAdapter.Viewholder>() {
+
+class SearchAdapter(private var items: MutableList<Product>) :
+    RecyclerView.Adapter<SearchAdapter.Viewholder>() {
+
 
     private lateinit var context: Context
 
-    class Viewholder(val binding: ViewholderPopularBinding) : RecyclerView.ViewHolder(binding.root)
+    override fun getItemCount(): Int {
+        return items.size
+    }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Viewholder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): Viewholder {
         context = parent.context
-        val binding = ViewholderPopularBinding.inflate(LayoutInflater.from(context), parent, false)
+        val binding = ViewholderItemPicLeftBinding.inflate(LayoutInflater.from(context), parent, false)
         return Viewholder(binding)
     }
 
-    override fun onBindViewHolder(holder: Viewholder, position: Int) {
+    override fun onBindViewHolder(holder: SearchAdapter.Viewholder, position: Int) {
         val item = items[position]
         holder.binding.txtTitle.text = item.title
-        holder.binding.txtPrice.text = "${item.price} Đ"
+        holder.binding.txtPrice.text = item.price.toString()
 
         Glide.with(context)
             .load(item.picUrl)
-            .into(holder.binding.pic)
+            .into(holder.binding.picMain)
 
         holder.itemView.setOnClickListener {
             val intent = Intent(context, DetailActivity::class.java)
-            intent.putExtra("product_id", item.id)
+            intent.putExtra("object", item)
             context.startActivity(intent)
         }
     }
-
-    override fun getItemCount(): Int = items.size
-
 
     fun updateList(newList: List<Product>) {
         items.clear()
         items.addAll(newList)
         notifyDataSetChanged()
+    }
+
+    inner class Viewholder(val binding: ViewholderItemPicLeftBinding) : RecyclerView.ViewHolder(binding.root) {
+
     }
 }

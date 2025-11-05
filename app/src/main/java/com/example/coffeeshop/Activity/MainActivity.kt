@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity() {
 		})
 	}
 
-	// Khởi tạo Category theo kiến trúc MVVM mới
+
 	private fun initCategory() {
 		binding.progressBarCategory.visibility = View.VISIBLE
 		viewModel.loadCategories()
@@ -96,7 +96,7 @@ class MainActivity : AppCompatActivity() {
 		}
 	}
 
-	// Khởi tạo chức năng tìm kiếm
+
 	private fun initSearch() {
 		// Khi click vào ô search hoặc button search, mở SearchActivity
 		binding.edtSearch.setOnClickListener {

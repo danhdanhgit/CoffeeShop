@@ -2,6 +2,7 @@ package com.example.coffeeshop.Retrofit
 
 import com.example.coffeeshop.Data.Entity.CategoryResponse
 import com.example.coffeeshop.Data.Entity.LoginResponse
+import com.example.coffeeshop.Data.Entity.OrderCreateResponse
 import com.example.coffeeshop.Data.Entity.OrderResponse
 import com.example.coffeeshop.Data.Entity.ProductResponse
 import com.example.coffeeshop.Data.Entity.UserDetailResponse
@@ -67,4 +68,23 @@ interface ApiBanHang {
 	//Lấy tất cả sản phẩm (cho chức năng tìm kiếm)
 	@GET("getallproducts.php")
 	fun getAllProducts(): Observable<ProductResponse>
+
+	//Tạo đơn hàng
+	@POST("createorder.php")
+	@FormUrlEncoded
+	fun createOrder(
+		@Field("user_id") userId: Int,
+		@Field("customer_name") customerName: String,
+		@Field("customer_phone") customerPhone: String,
+		@Field("customer_address") customerAddress: String,
+		@Field("total") total: Double,
+		@Field("items") itemsJson: String
+	): Observable<OrderCreateResponse>
+
+	//Tìm kiếm
+	@POST("search.php")
+	@FormUrlEncoded
+	fun search(
+		@Field("query") query: String
+	): Observable<ProductResponse>
 }

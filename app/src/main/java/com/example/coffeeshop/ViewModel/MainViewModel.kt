@@ -28,6 +28,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val _productDetail = MutableLiveData<Product?>()
     val productDetail: LiveData<Product?> = _productDetail
 
+    private val _searchResults = MutableLiveData<List<Product>>()
+    val searchResults: LiveData<List<Product>> = _searchResults
+
     // --- Các hàm để gọi từ Activity/Fragment (Tất cả đều trả về Unit) ---
 
     fun loadCategories(): LiveData<List<Category>> {
@@ -92,7 +95,30 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         )
     }
 
-    // Dọn dẹp tất cả các yêu cầu mạng khi ViewModel bị hủy
+    fun searchProducts(query: String) {
+        if (query.isEmpty()) {
+            _searchResults.postValue(emptyList())
+            return
+        }
+        compositeDisposable.add(
+            repository.searchProducts(query)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ response ->
+                    if (response.success) {
+                        _searchResults.postValue(response.result ?: emptyList())
+                    } else {
+                        Log.w("MainViewModel", "Search was not successful: ${response.message}")
+                        _searchResults.postValue(emptyList())
+                    }
+                }, { error ->
+                    Log.e("MainViewModel", "Search error: ${error.message}")
+                    _searchResults.postValue(emptyList())
+                })
+        )
+    }
+
+
     override fun onCleared() {
         super.onCleared()
         compositeDisposable.clear()

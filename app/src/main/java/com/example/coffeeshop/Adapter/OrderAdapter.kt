@@ -1,9 +1,11 @@
 package com.example.coffeeshop.Adapter
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.coffeeshop.Activity.OrderDetailActivity
 import com.example.coffeeshop.Data.Entity.Order
 import com.example.coffeeshop.databinding.ViewholderOrderBinding
 import java.text.SimpleDateFormat
@@ -25,14 +27,14 @@ class OrderAdapter(private val orders: List<Order>) : RecyclerView.Adapter<Order
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val order = orders[position]
 
-        // Order ID
+
         holder.binding.txtOrderId.text = "Đơn hàng #${order.orderId}"
 
-        // Status
+
         holder.binding.txtStatus.text = getStatusText(order.status)
         holder.binding.txtStatus.setBackgroundResource(getStatusBackground(order.status))
 
-        // Date
+
         try {
             val inputFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
             val outputFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
@@ -42,10 +44,10 @@ class OrderAdapter(private val orders: List<Order>) : RecyclerView.Adapter<Order
             holder.binding.txtOrderDate.text = "Ngày đặt: ${order.createdAt}"
         }
 
-        // Total
+
         holder.binding.txtTotal.text = "${order.total.toInt()} Đ"
 
-        // Address
+
         holder.binding.txtAddress.text = "Địa chỉ: ${order.customerAddress}"
 
         // Order Items
@@ -54,6 +56,13 @@ class OrderAdapter(private val orders: List<Order>) : RecyclerView.Adapter<Order
             holder.binding.recyclerViewOrderItems.layoutManager =
                 LinearLayoutManager(holder.itemView.context, LinearLayoutManager.VERTICAL, false)
             holder.binding.recyclerViewOrderItems.adapter = itemsAdapter
+        }
+
+        holder.itemView.setOnClickListener {
+            val ctx = holder.itemView.context
+            val intent = Intent(ctx, OrderDetailActivity::class.java)
+            intent.putExtra("order", order)
+            ctx.startActivity(intent)
         }
     }
 

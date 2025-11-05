@@ -25,10 +25,9 @@ class ItemsListActivity : AppCompatActivity() {
         binding = ActivityItemsListBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Lấy dữ liệu được truyền từ activity trước
+
         getIntentData()
 
-        // Khởi tạo RecyclerView và bắt đầu lấy dữ liệu
         initItemsList()
     }
 

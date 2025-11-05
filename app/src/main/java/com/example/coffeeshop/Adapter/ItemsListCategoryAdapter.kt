@@ -11,7 +11,7 @@ import com.example.coffeeshop.Data.Entity.Product
 import com.example.coffeeshop.databinding.ViewholderItemPicLeftBinding
 import com.example.coffeeshop.databinding.ViewholderItemPicRightBinding
 
-// Sửa constructor để chấp nhận List<Product> thay vì MutableList<Product>?
+
 class ItemsListCategoryAdapter(private val items: List<Product>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 

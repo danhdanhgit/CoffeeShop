@@ -39,7 +39,7 @@ class DetailActivity : AppCompatActivity() {
         // Lấy ID sản phẩm được gửi từ Activity trước
         val productId = intent.getIntExtra("product_id", -1)
         if (productId == -1) {
-            // Nếu không có ID, kết thúc activity để tránh lỗi
+
             finish()
             return
         }

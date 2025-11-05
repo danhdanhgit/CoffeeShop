@@ -2,6 +2,7 @@ package com.example.coffeeshop.Repository
 
 import android.content.Context
 import com.example.coffeeshop.Data.Entity.CategoryResponse
+import com.example.coffeeshop.Data.Entity.OrderCreateResponse
 import com.example.coffeeshop.Data.Entity.OrderResponse
 import com.example.coffeeshop.Data.Entity.ProductResponse
 import com.example.coffeeshop.Data.Entity.UserDetailResponse
@@ -16,7 +17,6 @@ import com.google.firebase.database.ValueEventListener
 import io.reactivex.rxjava3.core.Observable
 
 class MainRepository(private val context: Context) {
-    // --- SỬA LỖI: Lấy trực tiếp apiService từ RetrofitClient ---
     private val apiBanHang: ApiBanHang = RetrofitClient.apiService
 
     // Trả về trực tiếp Observable từ Retrofit
@@ -47,6 +47,23 @@ class MainRepository(private val context: Context) {
     // Lấy tất cả sản phẩm (cho tìm kiếm)
     fun loadAllProducts(): Observable<ProductResponse> {
         return apiBanHang.getAllProducts()
+    }
+    
+    // Tìm kiếm sản phẩm
+    fun searchProducts(query: String): Observable<ProductResponse> {
+        return apiBanHang.search(query)
+    }
+
+    // Tạo đơn hàng
+    fun createOrder(
+        userId: Int,
+        name: String,
+        phone: String,
+        address: String,
+        total: Double,
+        itemsJson: String
+    ): Observable<OrderCreateResponse> {
+        return apiBanHang.createOrder(userId, name, phone, address, total, itemsJson)
     }
 
     // ----- Các hàm Firebase được giữ lại để không làm hỏng các phần khác của ứng dụng -----

@@ -9,6 +9,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.coffeeshop.Adapter.OrderAdapter
+import com.example.coffeeshop.Data.Entity.Order
+import com.example.coffeeshop.Helper.TinyDB
 import com.example.coffeeshop.ViewModel.OrderViewModel
 import com.example.coffeeshop.databinding.ActivityOrdersBinding
 
@@ -52,7 +54,19 @@ class OrderActivity : AppCompatActivity() {
         viewModel.orders.observe(this, Observer { orders ->
             binding.progressBar.visibility = View.GONE
 
-            if (orders.isEmpty()) {
+            var displayOrders = orders
+            if (displayOrders.isEmpty()) {
+                // Fallback: lấy đơn hàng local nếu có
+                val tiny = TinyDB(this)
+                try {
+                    val localOrder = tiny.getObject("LocalLastOrder", Order::class.java)
+                    if (localOrder != null) {
+                        displayOrders = listOf(localOrder)
+                    }
+                } catch (_: Exception) {}
+            }
+
+            if (displayOrders.isEmpty()) {
                 binding.txtEmpty.visibility = View.VISIBLE
                 binding.recyclerViewOrders.visibility = View.GONE
             } else {
@@ -61,7 +75,7 @@ class OrderActivity : AppCompatActivity() {
 
                 binding.recyclerViewOrders.layoutManager =
                     LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-                binding.recyclerViewOrders.adapter = OrderAdapter(orders)
+                binding.recyclerViewOrders.adapter = OrderAdapter(displayOrders)
             }
         })
     }

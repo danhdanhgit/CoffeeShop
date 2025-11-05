@@ -77,4 +77,7 @@ dependencies {
 
     // RxAndroid for AndroidSchedulers
     implementation("io.reactivex.rxjava3:rxandroid:3.0.2")
+
+    //logging interceptor
+    implementation("com.squareup.okhttp3:logging-interceptor:4.11.0")
 }

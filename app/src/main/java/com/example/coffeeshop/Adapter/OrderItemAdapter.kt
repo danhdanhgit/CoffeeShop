@@ -30,7 +30,7 @@ class OrderItemAdapter(private val items: List<OrderItem>) :
         // Quantity
         holder.binding.txtQuantity.text = "Số lượng: ${item.quantity}"
 
-        // Price (total for this item)
+        // Price
         val totalPrice = item.price * item.quantity
         holder.binding.txtPrice.text = "${totalPrice.toInt()} Đ"
 

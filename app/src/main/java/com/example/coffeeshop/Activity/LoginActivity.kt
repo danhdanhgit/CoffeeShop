@@ -17,7 +17,6 @@ import java.io.IOException
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
-    // --- SỬA LỖI: Lấy trực tiếp apiService từ RetrofitClient ---
     private val apiBanHang: ApiBanHang = RetrofitClient.apiService
     private val compositeDisposable = CompositeDisposable()
     private lateinit var sharedPreferences: SharedPreferences
@@ -65,7 +64,6 @@ class LoginActivity : AppCompatActivity() {
                 Log.d("LoginActivity", "API Response: $response")
 
                 if (response.success) {
-                    // Lấy thông tin user từ kết quả trả về
                     val user = response.result.firstOrNull()
 
                     if (user != null) {

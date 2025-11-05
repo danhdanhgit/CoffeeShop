@@ -18,7 +18,7 @@ import java.io.IOException
 class RegisterActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRegisterBinding
-    // --- SỬA LỖI: Lấy trực tiếp apiService từ RetrofitClient ---
+
     private val apiBanHang: ApiBanHang = RetrofitClient.apiService
     //Dùng để quản lý các lời gọi API bất đồng bộ
     private val compositeDisposable = CompositeDisposable()
