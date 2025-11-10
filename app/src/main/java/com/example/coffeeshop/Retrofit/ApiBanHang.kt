@@ -5,6 +5,7 @@ import com.example.coffeeshop.Data.Entity.LoginResponse
 import com.example.coffeeshop.Data.Entity.OrderCreateResponse
 import com.example.coffeeshop.Data.Entity.OrderResponse
 import com.example.coffeeshop.Data.Entity.ProductResponse
+import com.example.coffeeshop.Data.Entity.UpdateProfileResponse
 import com.example.coffeeshop.Data.Entity.UserDetailResponse
 import com.example.coffeeshop.Data.Entity.UserModel
 import io.reactivex.rxjava3.core.Observable
@@ -87,4 +88,13 @@ interface ApiBanHang {
 	fun search(
 		@Field("search") query: String
 	): Observable<ProductResponse>
+
+	//Cập nhật thông tin user
+	@POST("update_profile.php")
+	@FormUrlEncoded
+	fun updateProfile(
+		@Field("user_id") userId: Int,
+		@Field("username") username: String,
+		@Field("phone") phone: String
+	): Observable<UpdateProfileResponse>
 }

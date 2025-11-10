@@ -18,22 +18,42 @@ class ProfileViewModel(application: Application) : AndroidViewModel(application)
     private val _userDetail = MutableLiveData<UserDetail?>()
     val userDetail: LiveData<UserDetail?> = _userDetail
 
+    private val _updateResult = MutableLiveData<Boolean>()
+    val updateResult: LiveData<Boolean> = _updateResult
+
     fun loadUserDetail(userId: Int) {
         compositeDisposable.add(
             repository.loadUserDetail(userId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ response ->
-                    if (response.success) {
-                        val user = response.result?.firstOrNull()
-                        _userDetail.postValue(user)
+                .subscribe({
+                    if (it.success) {
+                        _userDetail.postValue(it.result?.firstOrNull())
                     } else {
-                        Log.w("ProfileViewModel", "loadUserDetail was not successful")
                         _userDetail.postValue(null)
                     }
-                }, { error ->
-                    Log.e("ProfileViewModel", "loadUserDetail error: ${error.message}")
+                }, {
+                    Log.e("ProfileViewModel", "loadUserDetail error", it)
                     _userDetail.postValue(null)
+                })
+        )
+    }
+
+    fun updateProfile(userId: Int, username: String, phone: String) {
+        compositeDisposable.add(
+            repository.updateProfile(userId, username, phone)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ response ->
+                    Log.d("ProfileViewModel", "updateProfile response: success=${response.success}, message=${response.message}")
+                    _updateResult.postValue(response.success)
+                    if(response.success){
+                        // After a successful update, reload the user details to get fresh data
+                        loadUserDetail(userId)
+                    }
+                }, { error ->
+                    Log.e("ProfileViewModel", "updateProfile error: ${error.message}", error)
+                    _updateResult.postValue(false)
                 })
         )
     }
@@ -43,4 +63,3 @@ class ProfileViewModel(application: Application) : AndroidViewModel(application)
         compositeDisposable.clear()
     }
 }
-

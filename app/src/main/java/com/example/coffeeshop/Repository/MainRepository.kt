@@ -5,6 +5,7 @@ import com.example.coffeeshop.Data.Entity.CategoryResponse
 import com.example.coffeeshop.Data.Entity.OrderCreateResponse
 import com.example.coffeeshop.Data.Entity.OrderResponse
 import com.example.coffeeshop.Data.Entity.ProductResponse
+import com.example.coffeeshop.Data.Entity.UpdateProfileResponse
 import com.example.coffeeshop.Data.Entity.UserDetailResponse
 import com.example.coffeeshop.Domain.BannerModel
 import com.example.coffeeshop.Domain.ItemsModel
@@ -64,6 +65,15 @@ class MainRepository(private val context: Context) {
         itemsJson: String
     ): Observable<OrderCreateResponse> {
         return apiBanHang.createOrder(userId, name, phone, address, total, itemsJson)
+    }
+
+    // Thay đổi thông tin
+    fun updateProfile(
+        userId: Int,
+        name: String,
+        phone: String
+    ): Observable<UpdateProfileResponse> {
+        return apiBanHang.updateProfile(userId, name, phone)
     }
 
     // ----- Các hàm Firebase được giữ lại để không làm hỏng các phần khác của ứng dụng -----

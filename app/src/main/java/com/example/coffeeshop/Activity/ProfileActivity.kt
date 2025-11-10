@@ -3,12 +3,15 @@ package com.example.coffeeshop.Activity
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.widget.EditText
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import com.example.coffeeshop.R
 import com.example.coffeeshop.ViewModel.ProfileViewModel
 import com.example.coffeeshop.databinding.ActivityProfileBinding
 
@@ -19,7 +22,6 @@ class ProfileActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         binding = ActivityProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -27,6 +29,7 @@ class ProfileActivity : AppCompatActivity() {
 
         initControl()
         loadUserInfo()
+        observeViewModel()
     }
 
     private fun initControl() {
@@ -35,14 +38,12 @@ class ProfileActivity : AppCompatActivity() {
         }
 
         binding.btnEditProfile.setOnClickListener {
-            Toast.makeText(this, "Chức năng chỉnh sửa thông tin đang được phát triển", Toast.LENGTH_SHORT).show()
+            showEditProfileDialog()
         }
 
         binding.btnLogout.setOnClickListener {
-            // Xóa thông tin user đã lưu
             sharedPreferences.edit().clear().apply()
-            
-            // Chuyển về màn hình đăng nhập
+
             val intent = Intent(this, LoginActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
@@ -52,24 +53,17 @@ class ProfileActivity : AppCompatActivity() {
 
     private fun loadUserInfo() {
         val userId = sharedPreferences.getInt("USER_ID", -1)
-        
-        if (userId == -1) {
-            // Nếu chưa có user_id, thử lấy từ intent hoặc hiển thị thông tin mặc định
-            val username = sharedPreferences.getString("USER_NAME", "Người dùng") ?: "Người dùng"
-            binding.txtUsername.text = username
-            binding.txtEmail.text = "Chưa có thông tin"
-            binding.txtEmailValue.text = "Chưa có thông tin"
-            binding.txtPhoneValue.text = "Chưa có thông tin"
-            binding.txtUserIdValue.text = "#---"
-            return
+        if (userId != -1) {
+            binding.progressBar.visibility = View.VISIBLE
+            viewModel.loadUserDetail(userId)
+        } else {
+            // Handle user not logged in
         }
+    }
 
-        binding.progressBar.visibility = View.VISIBLE
-
-        viewModel.loadUserDetail(userId)
+    private fun observeViewModel() {
         viewModel.userDetail.observe(this, Observer { user ->
             binding.progressBar.visibility = View.GONE
-
             if (user != null) {
                 binding.txtUsername.text = user.username
                 binding.txtEmail.text = user.email
@@ -77,16 +71,48 @@ class ProfileActivity : AppCompatActivity() {
                 binding.txtPhoneValue.text = user.phone
                 binding.txtUserIdValue.text = "#${user.id}"
             } else {
-                // Hiển thị thông tin từ SharedPreferences nếu API fail
-                val username = sharedPreferences.getString("USER_NAME", "Người dùng") ?: "Người dùng"
-                binding.txtUsername.text = username
-                binding.txtEmail.text = "Không thể tải thông tin"
-                binding.txtEmailValue.text = "Không thể tải thông tin"
-                binding.txtPhoneValue.text = "Không thể tải thông tin"
-                binding.txtUserIdValue.text = "#---"
+                Toast.makeText(this, "Không thể tải thông tin người dùng", Toast.LENGTH_SHORT).show()
+            }
+        })
+
+        viewModel.updateResult.observe(this, Observer { isSuccess ->
+            binding.progressBar.visibility = View.GONE
+            if (isSuccess) {
+                Toast.makeText(this, "Cập nhật thông tin thành công!", Toast.LENGTH_SHORT).show()
+                // The userDetail observer will automatically update the UI
+            } else {
+                Toast.makeText(this, "Cập nhật thất bại. Vui lòng thử lại.", Toast.LENGTH_SHORT).show()
             }
         })
     }
+
+    private fun showEditProfileDialog() {
+        val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_edit_profile, null)
+        val edtUsername = dialogView.findViewById<EditText>(R.id.edtUsername)
+        val edtPhone = dialogView.findViewById<EditText>(R.id.edtPhone)
+
+        // Pre-fill the fields with current data
+        viewModel.userDetail.value?.let {
+            edtUsername.setText(it.username)
+            edtPhone.setText(it.phone)
+        }
+
+        AlertDialog.Builder(this)
+            .setView(dialogView)
+            .setPositiveButton("Lưu") { dialog, _ ->
+                val newUsername = edtUsername.text.toString().trim()
+                val newPhone = edtPhone.text.toString().trim()
+                val userId = sharedPreferences.getInt("USER_ID", -1)
+
+                if (newUsername.isNotEmpty() && newPhone.isNotEmpty() && userId != -1) {
+                    binding.progressBar.visibility = View.VISIBLE
+                    viewModel.updateProfile(userId, newUsername, newPhone)
+                } else {
+                    Toast.makeText(this, "Vui lòng không để trống thông tin", Toast.LENGTH_SHORT).show()
+                }
+                dialog.dismiss()
+            }
+            .setNegativeButton("Hủy", null)
+            .show()
+    }
 }
-
-

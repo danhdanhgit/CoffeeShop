@@ -37,6 +37,8 @@ class MainActivity : AppCompatActivity() {
 	}
 
 
+
+
 	private fun initBanner() {
 		binding.progressBarBanner.visibility = View.VISIBLE
 		viewModel.loadBanner()
@@ -98,7 +100,6 @@ class MainActivity : AppCompatActivity() {
 
 
 	private fun initSearch() {
-		// Khi click vào ô search hoặc button search, mở SearchActivity
 		binding.edtSearch.setOnClickListener {
 			val query = binding.edtSearch.text.toString()
 			val intent = Intent(this, SearchActivity::class.java)
@@ -112,5 +113,11 @@ class MainActivity : AppCompatActivity() {
 			intent.putExtra("search_query", query)
 			startActivity(intent)
 		}
+	}
+
+	override fun onResume() {
+		super.onResume()
+
+		(binding.recyclerViewCat.adapter as? CategoryAdapter)?.clearSelection()
 	}
 }

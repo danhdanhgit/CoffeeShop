@@ -96,8 +96,6 @@ class CartActivity : AppCompatActivity() {
                 itemsArray.put(obj)
             }
 
-            // Gọi API tạo đơn (nếu backend sẵn sàng); nếu fail, vẫn hiển thị popup và lưu local
-
             compositeDisposable.add(
                 apiBanHang.createOrder(
                     userId = getSharedPreferences("USER_PREFS", MODE_PRIVATE).getInt("USER_ID", 0),
@@ -110,11 +108,11 @@ class CartActivity : AppCompatActivity() {
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({ _: OrderCreateResponse ->
-                        showSuccessAndNavigate(name, totalLocal)
+                        showSuccessDialogAndGoHome()
                     }, { _ ->
                         // fallback nếu lỗi
                         saveLocalOrder(name, phone, address, totalLocal, cartItems)
-                        showSuccessAndNavigate(name, totalLocal)
+                        showSuccessDialogAndGoHome()
                     })
             )
         }
@@ -147,21 +145,25 @@ class CartActivity : AppCompatActivity() {
         tiny.putObject("LocalLastOrder", localOrder)
     }
 
-    private fun showSuccessAndNavigate(name: String, totalLocal: Double) {
-        val dialogBinding = DialogOrderSuccessBinding.inflate(LayoutInflater.from(this))
-        dialogBinding.tvMessage.text = "Cảm ơn $name!\nĐơn hàng của bạn đã được ghi nhận. Tổng: ${totalLocal} Đ"
-        val dialog = AlertDialog.Builder(this)
-            .setView(dialogBinding.root)
-            .setCancelable(false)
-            .create()
-        dialogBinding.btnOk.setOnClickListener {
+    private fun showSuccessDialogAndGoHome() {
+        AlertDialog.Builder(this)
+        .setTitle("Thành công")
+        .setMessage("Đơn hàng của bạn đã được đặt thành công!")
+        .setPositiveButton("OK") { dialog, _ ->
             dialog.dismiss()
-            managmentCart.clearCart()
-            startActivity(Intent(this, OrderActivity::class.java))
-            finish()
+            managmentCart.clearCart() // Xóa giỏ hàng
+
+            // Tạo Intent để quay về màn hình chính
+            val intent = Intent(this, MainActivity::class.java)
+            // Thêm cờ để xóa các Activity phía trên và không tạo Activity mới nếu đã có
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+            startActivity(intent)
+            finish() // Đóng CartActivity hiện tại
         }
-        dialog.show()
+        .setCancelable(false) // Không cho phép đóng dialog bằng cách nhấn ra ngoài
+        .show()
     }
+
 
     private fun calculateCart() {
         val percentTax = 0.02

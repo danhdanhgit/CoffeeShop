@@ -34,14 +34,13 @@ class SearchAdapter(private var items: MutableList<Product>) :
         val item = items[position]
         holder.binding.txtTitle.text = item.title
         holder.binding.txtPrice.text = item.price.toString()
-
         Glide.with(context)
             .load(item.picUrl)
             .into(holder.binding.picMain)
 
         holder.itemView.setOnClickListener {
             val intent = Intent(context, DetailActivity::class.java)
-            intent.putExtra("object", item)
+            intent.putExtra("product_id", item.id)
             context.startActivity(intent)
         }
     }

@@ -70,5 +70,14 @@ class CategoryAdapter(val items: List<Category>) :
     }
 
     override fun getItemCount(): Int = items.size
+    
+    fun clearSelection() {
+        val previouslySelected = selectedPosition
+        selectedPosition = -1
+        lastSelectedPosition = -1
+        if (previouslySelected != -1) {
+            notifyItemChanged(previouslySelected)
+        }
+    }
 
 }
