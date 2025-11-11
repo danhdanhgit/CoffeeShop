@@ -50,7 +50,7 @@
         android:id="@+id/btnStart"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="@string/get_started"
+        android:text="Khám phá ngay"
         android:textSize="18sp"
         android:background="@drawable/orange_bg"
         app:layout_constraintBottom_toBottomOf="parent"

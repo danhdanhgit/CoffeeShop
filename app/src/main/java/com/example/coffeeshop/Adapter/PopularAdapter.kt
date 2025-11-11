@@ -27,7 +27,7 @@ class PopularAdapter(private var items: MutableList<Product>) : RecyclerView.Ada
     override fun onBindViewHolder(holder: Viewholder, position: Int) {
         val item = items[position]
         holder.binding.txtTitle.text = item.title
-        holder.binding.txtPrice.text = "${item.price} Đ"
+        holder.binding.txtPrice.text = "${item.price} VND"
 
         Glide.with(context)
             .load(item.picUrl)

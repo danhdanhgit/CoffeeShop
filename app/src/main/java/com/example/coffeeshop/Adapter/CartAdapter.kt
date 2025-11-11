@@ -8,6 +8,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.request.RequestOptions
 import com.example.coffeeshop.Activity.ChangeNumberItemsListener
+import com.example.coffeeshop.Data.Entity.OrderItem
 import com.example.coffeeshop.Data.Entity.Product
 import com.example.coffeeshop.Helper.ManagmentCart
 import com.example.coffeeshop.databinding.ViewholderCartBinding
@@ -42,7 +43,8 @@ class CartAdapter(
 
         holder.binding.txtTitle.text = item.title
         holder.binding.feeEachItem.text = "${item.price}"
-        holder.binding.totalEachItem.text = "${Math.round(item.numberInCart * item.price)} Đ"
+        holder.binding.txtSize.text = "Kích cỡ: ${item.size}"
+        holder.binding.totalEachItem.text = "${Math.round(item.numberInCart * item.price)} VND"
         holder.binding.txtNumberItem.text = item.numberInCart.toString()
 
         Glide.with(holder.itemView.context)

@@ -68,7 +68,6 @@ class ItemsListCategoryAdapter(private val items: List<Product>) :
 
             holder.itemView.setOnClickListener {
                 val intent = Intent(context, DetailActivity::class.java)
-                // SỬA LỖI: Gửi đúng key là "product_id" mà DetailActivity đang nhận
                 intent.putExtra("product_id", item.id)
                 context.startActivity(intent)
             }
@@ -87,7 +86,6 @@ class ItemsListCategoryAdapter(private val items: List<Product>) :
 
             holder.itemView.setOnClickListener {
                 val intent = Intent(context, DetailActivity::class.java)
-                // SỬA LỖI: Gửi đúng key là "product_id" mà DetailActivity đang nhận
                 intent.putExtra("product_id", item.id)
                 context.startActivity(intent)
             }

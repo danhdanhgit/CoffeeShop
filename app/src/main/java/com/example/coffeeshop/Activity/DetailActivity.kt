@@ -72,15 +72,18 @@ class DetailActivity : AppCompatActivity() {
         binding.apply {
             // Tải ảnh sản phẩm bằng Glide
             Glide.with(this@DetailActivity)
-                .load(item.picUrl) // Sửa lại thành item.url cho đúng với Product model
+                .load(item.picUrl)
                 .into(picMain)
 
             // Cập nhật các thông tin sản phẩm
             txtTitle.text = item.title
             txtDescription.text = item.description
-            txtPrice.text = "${item.price} Đ"
+            txtPrice.text = "${item.price} VND"
             txtRating.text = item.rating.toString()
             txtNumberItem.text = item.numberInCart.toString()
+
+            // Chọn size "M" làm mặc định
+            updateSizeSelection("M")
 
             // Cập nhật trạng thái favorite button
             updateFavoriteButton(item)
@@ -124,34 +127,27 @@ class DetailActivity : AppCompatActivity() {
     private fun updateFavoriteButton(product: Product) {
         val isFavorite = managmentFavorites.isFavorite(product.id)
         if (isFavorite) {
-            // Đổi màu đỏ
             binding.btnFav.setColorFilter(
                 ContextCompat.getColor(this, R.color.orange),
                 PorterDuff.Mode.SRC_IN
             )
         } else {
-            // Màu trắng
             binding.btnFav.clearColorFilter()
         }
     }
 
     private fun initSizeList() {
         binding.apply {
-            btnSmall.setOnClickListener {
-                btnSmall.setBackgroundResource(R.drawable.stroke_brown_bg)
-                btnMedium.setBackgroundResource(0)
-                btnLarge.setBackgroundResource(0)
-            }
-            btnMedium.setOnClickListener {
-                btnSmall.setBackgroundResource(0)
-                btnMedium.setBackgroundResource(R.drawable.stroke_brown_bg)
-                btnLarge.setBackgroundResource(0)
-            }
-            btnLarge.setOnClickListener {
-                btnSmall.setBackgroundResource(0)
-                btnMedium.setBackgroundResource(0)
-                btnLarge.setBackgroundResource(R.drawable.stroke_brown_bg)
-            }
+            btnSmall.setOnClickListener { updateSizeSelection("Nhỏ") }
+            btnMedium.setOnClickListener { updateSizeSelection("Vừa") }
+            btnLarge.setOnClickListener { updateSizeSelection("Lớn") }
         }
+    }
+
+    private fun updateSizeSelection(size: String) {
+        currentProduct?.size = size
+        binding.btnSmall.setBackgroundResource(if (size == "Nhỏ") R.drawable.stroke_brown_bg else 0)
+        binding.btnMedium.setBackgroundResource(if (size == "Vừa") R.drawable.stroke_brown_bg else 0)
+        binding.btnLarge.setBackgroundResource(if (size == "Lớn") R.drawable.stroke_brown_bg else 0)
     }
 }

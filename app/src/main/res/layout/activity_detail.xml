@@ -274,7 +274,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="32dp"
-                        android:text="0Đ"
+                        android:text="0VND"
                         android:textColor="@color/white"
                         android:textSize="18sp"
                         android:textStyle="bold"
@@ -290,10 +290,10 @@
                         android:layout_marginVertical="12dp"
 
 
-                        android:layout_marginTop="692dp"
+                        android:layout_marginTop="12dp"
                         android:background="@color/white"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintHorizontal_bias="0.343"
+                        app:layout_constraintHorizontal_bias="0.161"
                         app:layout_constraintStart_toEndOf="@+id/textView20"
                         app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>

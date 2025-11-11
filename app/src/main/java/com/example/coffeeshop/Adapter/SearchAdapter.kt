@@ -33,7 +33,8 @@ class SearchAdapter(private var items: MutableList<Product>) :
     override fun onBindViewHolder(holder: SearchAdapter.Viewholder, position: Int) {
         val item = items[position]
         holder.binding.txtTitle.text = item.title
-        holder.binding.txtPrice.text = item.price.toString()
+        holder.binding.txtPrice.text = "${item.price.toString()} VND"
+        holder.binding.ratingBar.rating = item.rating
         Glide.with(context)
             .load(item.picUrl)
             .into(holder.binding.picMain)

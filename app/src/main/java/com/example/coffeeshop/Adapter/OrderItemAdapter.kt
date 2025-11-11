@@ -32,7 +32,7 @@ class OrderItemAdapter(private val items: List<OrderItem>) :
 
         // Price
         val totalPrice = item.price * item.quantity
-        holder.binding.txtPrice.text = "${totalPrice.toInt()} Đ"
+        holder.binding.txtPrice.text = "${totalPrice.toInt()} VND"
 
         // Image
         if (item.productUrl != null && item.productUrl.isNotEmpty()) {

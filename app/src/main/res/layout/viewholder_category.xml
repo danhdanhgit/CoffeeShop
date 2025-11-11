@@ -5,7 +5,7 @@
     android:id="@+id/titleCat"
     android:layout_marginHorizontal="8dp"
     android:background="@drawable/white_bg"
-    android:padding="12dp"
+    android:padding="10dp"
     android:text="title"
     android:textAlignment="center"
     android:textColor="@color/darkBrown"

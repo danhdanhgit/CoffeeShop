@@ -19,6 +19,9 @@ data class OrderItem(
     @SerializedName("qty")
     val quantity: Int,
 
+    @SerializedName("size")
+    val size: String,
+
     @SerializedName("price")
     val price: Double,
 

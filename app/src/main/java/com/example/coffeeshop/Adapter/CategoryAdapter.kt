@@ -38,7 +38,7 @@ class CategoryAdapter(val items: List<Category>) :
         holder: CategoryAdapter.Viewholder, position: Int
     ) {
         val item = items[position]
-        holder.binding.titleCat.text = item.title //Sửa ở đây
+        holder.binding.titleCat.text = item.title
 
         //Glide.with(holder.itemView.context)
             //.load(item.image)

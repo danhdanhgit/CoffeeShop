@@ -45,7 +45,7 @@ class OrderAdapter(private val orders: List<Order>) : RecyclerView.Adapter<Order
         }
 
 
-        holder.binding.txtTotal.text = "${order.total.toInt()} Đ"
+        holder.binding.txtTotal.text = "${order.total.toInt()} VND"
 
 
         holder.binding.txtAddress.text = "Địa chỉ: ${order.customerAddress}"

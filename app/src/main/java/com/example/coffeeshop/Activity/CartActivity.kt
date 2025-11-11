@@ -92,6 +92,7 @@ class CartActivity : AppCompatActivity() {
                 val obj = JSONObject()
                 obj.put("product_id", it.id)
                 obj.put("qty", it.numberInCart)
+                obj.put("size", it.size)
                 obj.put("price", it.price)
                 itemsArray.put(obj)
             }
@@ -125,6 +126,7 @@ class CartActivity : AppCompatActivity() {
                 orderId = 0,
                 productId = it.id,
                 quantity = it.numberInCart,
+                size = it.size,
                 price = it.price,
                 productTitle = it.title,
                 productUrl = it.picUrl
@@ -173,10 +175,10 @@ class CartActivity : AppCompatActivity() {
         val itemTotal = Math.round(managmentCart.getTotalFee() * 100)/ 100
 
         binding.apply {
-            txtTotalFee.text = "${itemTotal} Đ"
-            txtTax.text = "${tax} Đ"
-            txtDelivery.text = "${delivery} Đ"
-            txtTotal.text = "${total} Đ"
+            txtTotalFee.text = "${itemTotal} VND"
+            txtTax.text = "${tax} VND"
+            txtDelivery.text = "${delivery} VND"
+            txtTotal.text = "${total} VND"
         }
     }
 

@@ -34,5 +34,7 @@ data class Product(
     @SerializedName("category_id")
     val categoryId: Int,
 
-    var numberInCart: Int = 0
+    var numberInCart: Int = 0,
+
+    var size: String = ""
 ) : Serializable

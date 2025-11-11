@@ -23,7 +23,7 @@ class PopularItemsAdapter(private val items: MutableList<ItemsModel>) : Recycler
 	override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 		val item = items[position]
 		holder.binding.txtTitle.text = item.title
-		holder.binding.txtPrice.text = "${item.price} Đ"
+		holder.binding.txtPrice.text = "${item.price} VND"
 
 		val firstImage = item.picUrl.firstOrNull()
 		Glide.with(context)

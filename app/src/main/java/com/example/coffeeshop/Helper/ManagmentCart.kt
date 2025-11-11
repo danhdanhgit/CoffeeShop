@@ -12,14 +12,18 @@ class ManagmentCart(val context: Context) {
 
     fun insertItems(item: Product) {
         val listItem = getListCart()
-        val existAlready = listItem.any { it.title == item.title }
-        val index = listItem.indexOfFirst { it.title == item.title }
 
-        if (existAlready) {
-            listItem[index].numberInCart = item.numberInCart
+        // Kiểm tra trùng dựa trên cả title và size
+        val index = listItem.indexOfFirst { it.title == item.title && it.size == item.size }
+
+        if (index != -1) {
+            // Nếu đã có cùng sản phẩm + cùng size -> cập nhật số lượng
+            listItem[index].numberInCart += item.numberInCart
         } else {
+            // Nếu chưa có -> thêm mới
             listItem.add(item)
         }
+
         tinyDB.putListObject("CartList", listItem)
         Toast.makeText(context, "Đã thêm vào giỏ hàng", Toast.LENGTH_SHORT).show()
     }
