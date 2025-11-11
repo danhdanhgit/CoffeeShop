@@ -67,4 +67,14 @@ class ManagmentCart(val context: Context) {
     fun clearCart() {
         tinyDB.putListObject("CartList", ArrayList())
     }
+
+    //Đếm tổng số sp trong giỏ hàng
+    fun getTotalQuantity(): Int {
+        val listItem = getListCart()
+        var total = 0
+        for (item in listItem) {
+            total += item.numberInCart
+        }
+        return total
+    }
 }

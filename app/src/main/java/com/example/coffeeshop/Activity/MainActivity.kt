@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.coffeeshop.Adapter.CategoryAdapter
 import com.example.coffeeshop.Adapter.PopularItemsAdapter
+import com.example.coffeeshop.Helper.ManagmentCart
 import com.example.coffeeshop.ViewModel.MainViewModel
 import com.example.coffeeshop.databinding.ActivityMainBinding
 
@@ -22,6 +23,8 @@ class MainActivity : AppCompatActivity() {
 	private val viewModel: MainViewModel by viewModels()
 
 	private lateinit var popularItemsAdapter: PopularItemsAdapter
+	private lateinit var managmentCart: ManagmentCart
+
 
 	override fun onCreate(savedInstanceState: Bundle?) {
 		super.onCreate(savedInstanceState)
@@ -29,11 +32,14 @@ class MainActivity : AppCompatActivity() {
 		binding = ActivityMainBinding.inflate(layoutInflater)
 		setContentView(binding.root)
 
+		managmentCart = ManagmentCart(this)
+
 		initBanner()
 		initCategory()
 		initPopular()
 		initBottomMenu()
 		initSearch()
+		updateCartBadge()
 	}
 
 
@@ -115,9 +121,25 @@ class MainActivity : AppCompatActivity() {
 		}
 	}
 
+	private fun updateCartBadge() {
+		val count = managmentCart.getTotalQuantity()
+		val badge = binding.txtCartBadge
+
+		if (count > 0) {
+			badge.text = count.toString()
+			badge.visibility = View.VISIBLE
+		} else {
+			badge.visibility = View.GONE
+		}
+	}
+
+
 	override fun onResume() {
 		super.onResume()
+		//Cập nhật lại badge mỗi khi quay lại màn hình chính
+		updateCartBadge()
 
+		//Reset chọn danh mục
 		(binding.recyclerViewCat.adapter as? CategoryAdapter)?.clearSelection()
 	}
 }
