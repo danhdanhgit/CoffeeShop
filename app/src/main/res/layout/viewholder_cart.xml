@@ -17,6 +17,17 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
+            android:id="@+id/txtSize"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Kích cỡ: M"
+            android:textColor="@color/grey"
+            android:layout_marginStart="8dp"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/txtTitle"
+            app:layout_constraintStart_toEndOf="@+id/txtTitle" />
+
+        <TextView
             android:id="@+id/plusEachItem"
             android:layout_width="28dp"
             android:layout_height="28dp"
@@ -57,9 +68,9 @@
             android:id="@+id/minusEachItem"
             android:layout_width="28dp"
             android:layout_height="28dp"
-            android:text="-"
             android:background="@drawable/orange_bg"
             android:gravity="center"
+            android:text="-"
             android:textColor="@color/white"
             android:textSize="18sp"
             android:textStyle="bold"
@@ -85,30 +96,18 @@
             android:layout_height="wrap_content"
             android:text="0Đ"
             android:textColor="@color/darkBrown"
-            app:layout_constraintBottom_toTopOf="@+id/txtSize"
+            android:layout_marginTop="16dp"
             app:layout_constraintStart_toStartOf="@+id/txtTitle"
             app:layout_constraintTop_toBottomOf="@+id/txtTitle"
             app:layout_constraintVertical_chainStyle="packed" />
-
-        <TextView
-            android:id="@+id/txtSize"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Kích cỡ: M"
-            android:textColor="@color/darkBrown"
-            android:textSize="12sp"
-
-            app:layout_constraintBottom_toTopOf="@+id/minusEachItem"
-            app:layout_constraintStart_toStartOf="@+id/feeEachItem"
-            app:layout_constraintTop_toBottomOf="@+id/feeEachItem" />
 
         <TextView
             android:id="@+id/totalEachItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="0Đ"
-            android:textSize="18sp"
             android:textColor="@color/darkBrown"
+            android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/plusEachItem"
             app:layout_constraintEnd_toEndOf="parent" />

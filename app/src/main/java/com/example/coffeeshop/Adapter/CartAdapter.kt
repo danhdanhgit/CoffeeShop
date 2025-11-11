@@ -43,7 +43,7 @@ class CartAdapter(
 
         holder.binding.txtTitle.text = item.title
         holder.binding.feeEachItem.text = "${item.price}"
-        holder.binding.txtSize.text = "Kích cỡ: ${item.size}"
+        holder.binding.txtSize.text = "(${item.size})"
         holder.binding.totalEachItem.text = "${Math.round(item.numberInCart * item.price)} VND"
         holder.binding.txtNumberItem.text = item.numberInCart.toString()
 
