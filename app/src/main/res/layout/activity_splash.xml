@@ -13,23 +13,27 @@
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/splash_pic" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
         android:text="Hãy lựa chọn loại cà phê yêu thích của bạn"
         android:textAlignment="center"
         android:textColor="@color/white"
-        android:textSize="37sp"
+        android:textSize="35sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginTop="40dp"
+        app:layout_constraintTop_toTopOf="@id/imageView"
+        tools:layout_editor_absoluteY="16dp" />
 
     <TextView
         android:id="@+id/textView2"
@@ -38,7 +42,7 @@
         android:layout_marginBottom="48dp"
         android:textColor="@color/white"
         android:textAlignment="center"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:text="Hạt cà phê tuyệt hảo, mẻ rang hoàn hảo và ly cà phê đậm đà "
         app:layout_constraintBottom_toTopOf="@+id/btnStart"
         app:layout_constraintEnd_toEndOf="parent"

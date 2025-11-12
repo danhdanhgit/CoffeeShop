@@ -1,5 +1,6 @@
 package com.example.coffeeshop.Activity
 
+import android.content.Intent
 import android.graphics.PorterDuff
 import android.os.Bundle
 import android.view.View
@@ -50,18 +51,14 @@ class DetailActivity : AppCompatActivity() {
 
         // Lắng nghe dữ liệu từ ViewModel
         viewModel.productDetail.observe(this, Observer { product ->
-            // Ẩn thanh tiến trình khi có dữ liệu trả về
+
             binding.progressBar.visibility = View.GONE
 
-            // product là một đối tượng Product? (có thể null)
             if (product != null) {
-                // Khởi tạo số lượng ban đầu là 1
                 product.numberInCart = 1
-                // Cập nhật giao diện với dữ liệu sản phẩm
                 setupUI(product)
             } else {
-                // Nếu không tìm thấy sản phẩm, kết thúc activity
-                // Bạn cũng có thể hiển thị một thông báo lỗi ở đây
+
                 finish()
             }
         })
@@ -78,6 +75,7 @@ class DetailActivity : AppCompatActivity() {
             // Cập nhật các thông tin sản phẩm
             txtTitle.text = item.title
             txtDescription.text = item.description
+            txtExtra.text = item.extra
             txtPrice.text = "${item.price} VND"
             txtRating.text = item.rating.toString()
             txtNumberItem.text = item.numberInCart.toString()
@@ -85,12 +83,15 @@ class DetailActivity : AppCompatActivity() {
             // Chọn size "M" làm mặc định
             updateSizeSelection("M")
 
-            // Cập nhật trạng thái favorite button
+
             updateFavoriteButton(item)
 
             // Xử lý sự kiện thêm vào giỏ hàng
             btnAddToCart.setOnClickListener {
                 managmentCart.insertItems(item)
+                val intent = Intent(this@DetailActivity, MainActivity::class.java)
+                startActivity(intent)
+                finish()
             }
 
             // Xử lý sự kiện nút quay lại

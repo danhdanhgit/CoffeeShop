@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/cream_top_conrner_bg"
     tools:context=".Activity.LoginActivity">
 
     <!-- Title TextView -->
@@ -38,6 +39,8 @@
             android:layout_height="wrap_content"
             android:drawablePadding="5dp"
             android:hint="Email"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"
             android:inputType="textEmailAddress" />
         <!-- Note: Using android:drawableStart instead of android:drawableLeft for RTL support -->
     </com.google.android.material.textfield.TextInputLayout>
@@ -58,6 +61,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawablePadding="5dp"
+            android:textColor="@color/black"
             android:hint="Password"
             android:inputType="textPassword" />
         <!-- Note: Using android:drawableStart instead of android:drawableLeft for RTL support -->
@@ -93,6 +97,7 @@
             android:contentDescription="Thông báo nếu chưa có tài khoản"
             android:text="Nếu chưa có tài khoản?"
             android:textSize="15sp"
+            android:textColor="@color/black"
             tools:ignore="TextSizeCheck" />
 
         <TextView
@@ -115,6 +120,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:gravity="center"
+        android:textColor="@color/black"
         android:text="Quên mật khẩu"
         android:textSize="15sp"
         android:textStyle="bold"

@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/lightCream"
     tools:context=".Activity.RegisterActivity">
 
 
@@ -57,6 +58,8 @@
                     android:layout_height="wrap_content"
                     android:hint="Email"
                     android:textSize="16sp"
+                    android:textColorHint="@color/black"
+                    android:textColor="@color/black"
                     android:inputType="textEmailAddress" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -79,6 +82,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Username"
+                    android:textColorHint="@color/black"
+                    android:textColor="@color/black"
                     android:inputType="text" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -101,7 +106,9 @@
                     android:id="@+id/pass"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
+                    android:hint="Mật khẩu"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/black"
                     android:inputType="textPassword" /> <!-- Che mật khẩu -->
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -124,6 +131,9 @@
                     android:id="@+id/repass"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:hint="Nhập lại mật khẩu"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/black"
                     android:inputType="textPassword" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -145,6 +155,9 @@
                     android:id="@+id/sodienthoai"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:hint="Số điện thoại"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/black"
                     android:inputType="phone" />
             </com.google.android.material.textfield.TextInputLayout>
 

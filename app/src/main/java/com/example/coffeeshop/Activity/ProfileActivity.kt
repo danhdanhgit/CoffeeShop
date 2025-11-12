@@ -79,7 +79,7 @@ class ProfileActivity : AppCompatActivity() {
             binding.progressBar.visibility = View.GONE
             if (isSuccess) {
                 Toast.makeText(this, "Cập nhật thông tin thành công!", Toast.LENGTH_SHORT).show()
-                // The userDetail observer will automatically update the UI
+
             } else {
                 Toast.makeText(this, "Cập nhật thất bại. Vui lòng thử lại.", Toast.LENGTH_SHORT).show()
             }

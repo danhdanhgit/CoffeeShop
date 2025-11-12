@@ -153,7 +153,7 @@ class CartActivity : AppCompatActivity() {
         .setMessage("Đơn hàng của bạn đã được đặt thành công!")
         .setPositiveButton("OK") { dialog, _ ->
             dialog.dismiss()
-            managmentCart.clearCart() // Xóa giỏ hàng
+            managmentCart.clearCart()
 
             // Tạo Intent để quay về màn hình chính
             val intent = Intent(this, MainActivity::class.java)

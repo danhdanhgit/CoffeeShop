@@ -32,13 +32,15 @@
 
     <TextView
         android:id="@+id/txtTitle"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:text="Title"
         android:textSize="16sp"
         android:textColor="@color/darkBrown"
         android:textStyle="bold"
+        android:maxLines="2"
+        android:ellipsize="end"
         app:layout_constraintStart_toEndOf="@+id/picMain"
         app:layout_constraintTop_toTopOf="@+id/frameLayout" />
 

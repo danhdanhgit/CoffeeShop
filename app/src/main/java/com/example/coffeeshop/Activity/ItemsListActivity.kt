@@ -43,19 +43,18 @@ class ItemsListActivity : AppCompatActivity() {
     private fun initItemsList() {
         binding.apply {
             progressBar.visibility = View.VISIBLE
-            // 1. Yêu cầu ViewModel bắt đầu tải dữ liệu
+
             viewModel.loadItemsByCategory(categoryId)
 
-            // 2. Lắng nghe thuộc tính public để nhận kết quả
+
             viewModel.itemsByCategory.observe(this@ItemsListActivity, Observer { products ->
-                // Ẩn thanh tiến trình sau khi có kết quả
+
                 progressBar.visibility = View.GONE
 
-                // Kiểm tra xem danh sách có dữ liệu hay không
+
                 if (!products.isNullOrEmpty()) {
                     rvListView.layoutManager =
                         LinearLayoutManager(this@ItemsListActivity, LinearLayoutManager.VERTICAL, false)
-                    // Cập nhật adapter với dữ liệu mới
                     rvListView.adapter = ItemsListCategoryAdapter(products)
                 }
             })
