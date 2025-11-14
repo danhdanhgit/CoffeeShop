@@ -4,6 +4,7 @@ import android.content.Context
 import com.example.coffeeshop.Data.Entity.CategoryResponse
 import com.example.coffeeshop.Data.Entity.OrderCreateResponse
 import com.example.coffeeshop.Data.Entity.OrderResponse
+import com.example.coffeeshop.Data.Entity.ProductListResponse
 import com.example.coffeeshop.Data.Entity.ProductResponse
 import com.example.coffeeshop.Data.Entity.UpdateProfileResponse
 import com.example.coffeeshop.Data.Entity.UserDetailResponse
@@ -26,7 +27,7 @@ class MainRepository(private val context: Context) {
     }
 
     // Trả về trực tiếp Observable từ Retrofit
-    fun loadItemsByCategory(categoryId: Int): Observable<ProductResponse> {
+    fun loadItemsByCategory(categoryId: Int): Observable<ProductListResponse> {
         return apiBanHang.getItemsByCategory(categoryId)
     }
 
@@ -51,7 +52,7 @@ class MainRepository(private val context: Context) {
     }
     
     // Tìm kiếm sản phẩm
-    fun searchProducts(query: String): Observable<ProductResponse> {
+    fun searchProducts(query: String): Observable<ProductListResponse> {
         return apiBanHang.search(query)
     }
 

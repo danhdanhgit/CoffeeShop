@@ -13,5 +13,5 @@ data class ProductResponse(
     val message: String,
 
     @SerializedName("result")
-    val result: List<Product>
+    val result: ProductResult?
 )

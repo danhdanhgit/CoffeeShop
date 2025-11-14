@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit
 object RetrofitClient {
 
 
-    //private const val BASE_URL = "http://192.168.1.4/coffeeshop/"
+    //private const val BASE_URL = "http://192.168.1.3/coffeeshop/"
 	private const val BASE_URL = "http://192.168.88.169/coffeeshop/"
 
 

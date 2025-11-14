@@ -4,6 +4,7 @@ import com.example.coffeeshop.Data.Entity.CategoryResponse
 import com.example.coffeeshop.Data.Entity.LoginResponse
 import com.example.coffeeshop.Data.Entity.OrderCreateResponse
 import com.example.coffeeshop.Data.Entity.OrderResponse
+import com.example.coffeeshop.Data.Entity.ProductListResponse
 import com.example.coffeeshop.Data.Entity.ProductResponse
 import com.example.coffeeshop.Data.Entity.UpdateProfileResponse
 import com.example.coffeeshop.Data.Entity.UserDetailResponse
@@ -43,7 +44,7 @@ interface ApiBanHang {
 	@FormUrlEncoded
 	fun getItemsByCategory(
 		@Field("category_id") categoryId: Int
-	): Observable<ProductResponse>
+	): Observable<ProductListResponse>
 
 	//Lấy chi tiết sản phẩm
 	@POST("getproduct.php")
@@ -87,7 +88,7 @@ interface ApiBanHang {
 	@FormUrlEncoded
 	fun search(
 		@Field("search") query: String
-	): Observable<ProductResponse>
+	): Observable<ProductListResponse>
 
 	//Cập nhật thông tin user
 	@POST("update_profile.php")

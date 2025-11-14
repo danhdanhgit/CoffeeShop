@@ -16,6 +16,7 @@ gson = "2.10.1"
 googleGmsGoogleServices = "4.4.3"
 firebaseDatabase = "22.0.0"
 recyclerview = "1.4.0"
+viewpager2 = "1.1.0"
 
 
 [libraries]
@@ -33,6 +34,7 @@ glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 firebase-database = { group = "com.google.firebase", name = "firebase-database", version.ref = "firebaseDatabase" }
 androidx-recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "recyclerview" }
+androidx-viewpager2 = { group = "androidx.viewpager2", name = "viewpager2", version.ref = "viewpager2" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
