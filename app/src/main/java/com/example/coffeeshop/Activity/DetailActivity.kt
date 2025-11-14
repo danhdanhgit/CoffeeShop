@@ -177,7 +177,6 @@ class DetailActivity : AppCompatActivity() {
         //Thiết lập RecyclerView cho media
         binding.recyclerMedia.layoutManager =
             LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-
         //Tạo 1 snap helper
         val snapHelper: SnapHelper = PagerSnapHelper()
 
