@@ -37,6 +37,7 @@ class MainActivity : AppCompatActivity() {
 		initBanner()
 		initCategory()
 		initPopular()
+		getAllProduct()
 		initBottomMenu()
 		initSearch()
 		updateCartBadge()
@@ -130,6 +131,13 @@ class MainActivity : AppCompatActivity() {
 			badge.visibility = View.VISIBLE
 		} else {
 			badge.visibility = View.GONE
+		}
+	}
+
+	private fun getAllProduct() {
+		binding.tvGetAll.setOnClickListener {
+			val intent = Intent(this, GetAllProductActivity::class.java)
+			startActivity(intent)
 		}
 	}
 

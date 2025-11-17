@@ -148,26 +148,26 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         )
     }
 
-//    // --- Load All Products ---
-//    fun loadAllProducts(query: String) {
-//        compositeDisposable.add(
-//            repository.loadAllProducts()
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe({ response ->
-//                    val products = response.result?.product ?: emptyList()
-//                    if (response.success) {
-//                        _allProducts.postValue(products)
-//                    } else {
-//                        Log.w("MainViewModel", "loadAllProducts was not successful")
-//                        _allProducts.postValue(emptyList())
-//                    }
-//                }, { error ->
-//                    Log.e("MainViewModel", "loadAllProducts error: ${error.message}")
-//                    _allProducts.postValue(emptyList())
-//                })
-//        )
-//    }
+    // --- Load All Products ---
+    fun loadAllProducts() {
+        compositeDisposable.add(
+            repository.loadAllProducts()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({ response ->
+                    val products = response.result ?: emptyList()
+                    if (response.success) {
+                        _allProducts.postValue(products)
+                    } else {
+                        Log.w("MainViewModel", "loadAllProducts was not successful")
+                        _allProducts.postValue(emptyList())
+                    }
+                }, { error ->
+                    Log.e("MainViewModel", "loadAllProducts error: ${error.message}")
+                    _allProducts.postValue(emptyList())
+                })
+        )
+    }
 
     // --- Banner & Popular ---
     fun loadBanner(): LiveData<MutableList<BannerModel>> = repository.loadBanner()

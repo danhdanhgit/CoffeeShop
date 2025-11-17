@@ -68,8 +68,8 @@ interface ApiBanHang {
 	): Observable<OrderResponse>
 
 	//Lấy tất cả sản phẩm (cho chức năng tìm kiếm)
-	@GET("getallproducts.php")
-	fun getAllProducts(): Observable<ProductResponse>
+	@GET("getAllProducts.php")
+	fun getAllProducts(): Observable<ProductListResponse>
 
 	//Tạo đơn hàng
 	@POST("createorder.php")

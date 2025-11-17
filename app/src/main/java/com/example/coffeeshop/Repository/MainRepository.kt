@@ -47,7 +47,7 @@ class MainRepository(private val context: Context) {
     }
 
     // Lấy tất cả sản phẩm (cho tìm kiếm)
-    fun loadAllProducts(): Observable<ProductResponse> {
+    fun loadAllProducts(): Observable<ProductListResponse> {
         return apiBanHang.getAllProducts()
     }
     

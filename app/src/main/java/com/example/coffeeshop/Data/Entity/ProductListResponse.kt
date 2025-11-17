@@ -11,7 +11,7 @@ data class ProductListResponse(
     val success: Boolean,
 
     @SerializedName("message")
-    val message: String,
+    val message: String?,
 
     // result là một mảng các Product trực tiếp (không phải object có field product)
     @SerializedName("result")

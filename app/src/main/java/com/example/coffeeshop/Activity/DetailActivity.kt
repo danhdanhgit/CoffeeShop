@@ -30,9 +30,6 @@ class DetailActivity : AppCompatActivity() {
     private var currentProduct: Product? = null
     private var mediaAdapter: MediaAdapter? = null
 
-    companion object {
-        private const val TAG = "DetailActivity_Debug"
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,9 +48,7 @@ class DetailActivity : AppCompatActivity() {
     private fun getIntentDataAndLoad() {
         // Lấy ID sản phẩm được gửi từ Activity trước
         val productId = intent.getIntExtra("product_id", -1)
-        Log.d(TAG, "onCreate - Received Product ID: $productId")
         if (productId == -1) {
-            Log.e(TAG, "Invalid Product Id (-1). Finishing activity.")
             finish()
             return
         }
@@ -66,13 +61,9 @@ class DetailActivity : AppCompatActivity() {
         viewModel.productDetail.observe(this, Observer { product ->
             binding.progressBar.visibility = View.GONE
             if (product != null) {
-                //Thêm log khi tải sản phẩm thành công
-                Log.i(TAG, "Product loaded successfully: ID=${product.id}, Title = '${product.title}'")
                 product.numberInCart = 1
                 setupUI(product)
             } else {
-                //Log khi ViewModel trả về null
-                Log.w(TAG, "ViewModel returned a null product for ID: $productId. Finishing activity.")
                 finish()
             }
         })
@@ -103,8 +94,8 @@ class DetailActivity : AppCompatActivity() {
 
 
 
-            // Chọn size "M" làm mặc định
-            updateSizeSelection("M")
+            // Chọn size "Nhỏ" làm mặc định
+            updateSizeSelection("Nhỏ")
             updateFavoriteButton(item)
 
             // Xử lý sự kiện thêm vào giỏ hàng

@@ -15,6 +15,9 @@
         android:theme="@style/Theme.Coffeeshop"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".Activity.GetAllProductActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activity.SearchActivity"
             android:exported="false" />
         <activity
