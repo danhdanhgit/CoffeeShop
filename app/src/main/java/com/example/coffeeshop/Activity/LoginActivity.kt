@@ -28,6 +28,7 @@ class LoginActivity : AppCompatActivity() {
 
         // Khởi tạo SharedPreferences
         sharedPreferences = getSharedPreferences("USER_PREFS", MODE_PRIVATE)
+        //val currentUserId = sharedPreferences.getString("USER_ID", "")
 
         initControl()
     }
@@ -75,6 +76,7 @@ class LoginActivity : AppCompatActivity() {
                             putString("USER_PHONE", user.phone)
                             apply()
                         }
+
                     }
 
                     Toast.makeText(this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show()

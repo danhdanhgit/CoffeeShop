@@ -1,11 +1,13 @@
 package com.example.coffeeshop.Activity
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.PorterDuff
 import android.nfc.Tag
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -27,9 +29,9 @@ class DetailActivity : AppCompatActivity() {
     private val viewModel: MainViewModel by viewModels()
     private lateinit var managmentCart: ManagmentCart
     private lateinit var managmentFavorites: ManagmentFavorites
-    private var currentProduct: Product? = null
+    private lateinit var currentUserId: String
+    private lateinit var currentProduct: Product
     private var mediaAdapter: MediaAdapter? = null
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +40,9 @@ class DetailActivity : AppCompatActivity() {
 
         managmentCart = ManagmentCart(this)
         managmentFavorites = ManagmentFavorites(this)
-
+        val sharedPreferences = getSharedPreferences("USER_PREFS", MODE_PRIVATE)
+        val userIdValue: Any? = sharedPreferences.all["USER_ID"]
+        currentUserId = userIdValue?.toString() ?: ""
         getIntentDataAndLoad()
         initSizeList()
         initFavoriteButton()
@@ -93,7 +97,7 @@ class DetailActivity : AppCompatActivity() {
             txtNumberItem.text = item.numberInCart.toString()
 
 
-
+            
             // Chọn size "Nhỏ" làm mặc định
             updateSizeSelection("Nhỏ")
             updateFavoriteButton(item)
@@ -130,21 +134,22 @@ class DetailActivity : AppCompatActivity() {
 
     private fun initFavoriteButton() {
         binding.btnFav.setOnClickListener {
-            currentProduct?.let { product ->
-                managmentFavorites.toggleFavorite(product)
-                updateFavoriteButton(product)
+            if (currentUserId.isNotBlank()) {
+                managmentFavorites.toggleFavorite(currentProduct, currentUserId)
+                
+                updateFavoriteButton(currentProduct)
+            } else {
+                Toast.makeText(this, "Vui lòng đăng nhập để sử dụng tính năng này", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
     private fun updateFavoriteButton(product: Product) {
-        val isFavorite = managmentFavorites.isFavorite(product.id)
-        if (isFavorite) {
+        if (currentUserId.isNotBlank() && managmentFavorites.isFavorite(currentProduct.id, currentUserId)) {
             binding.btnFav.setColorFilter(
                 ContextCompat.getColor(this, R.color.orange),
-                PorterDuff.Mode.SRC_IN
-            )
-        } else {
+                PorterDuff.Mode.SRC_IN)
+        }else {
             binding.btnFav.clearColorFilter()
         }
     }

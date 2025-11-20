@@ -103,7 +103,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                     // ProductResponse có result là ProductResult với product, images, videos
                     val productResult = response.result
                     val firstProduct: Product? = productResult?.product
-                    
+
                     if (response.success && firstProduct != null) {
                         _productDetail.postValue(firstProduct)
                         // Lấy images và videos từ ProductResult

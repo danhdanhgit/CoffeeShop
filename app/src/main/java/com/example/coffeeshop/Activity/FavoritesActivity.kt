@@ -1,5 +1,6 @@
 package com.example.coffeeshop.Activity
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.activity.enableEdgeToEdge
@@ -36,22 +37,36 @@ class FavoritesActivity : AppCompatActivity() {
         binding.progressBar.visibility = View.VISIBLE
         binding.txtEmpty.visibility = View.GONE
 
-        val favoritesList = managmentFavorites.getFavoritesList()
+        //đọc sharePreference
+        val sharedPreferences = getSharedPreferences("USER_PREFS", Context.MODE_PRIVATE)
 
-        binding.progressBar.visibility = View.GONE
+        val userIdValue: Any? = sharedPreferences.all["USER_ID"]
+        //lấy userId, nếu không tìm thấy giá trị
+        val userId: String = userIdValue?.toString() ?: ""
 
-        if (favoritesList.isEmpty()) {
+        if (userId.isNotBlank()){
+            val favoritesList = managmentFavorites.getFavoritesList(userId)
+            binding.progressBar.visibility = View.GONE
+            if (favoritesList.isEmpty()) {
+                binding.txtEmpty.visibility = View.VISIBLE
+                binding.recyclerViewFavorites.visibility = View.GONE
+            } else {
+                binding.txtEmpty.visibility = View.GONE
+                binding.recyclerViewFavorites.visibility = View.VISIBLE
+
+
+                favoritesAdapter = PopularAdapter(ArrayList(favoritesList))
+                binding.recyclerViewFavorites.layoutManager = GridLayoutManager(this, 2)
+                binding.recyclerViewFavorites.adapter = favoritesAdapter
+            }
+        } else {
+            //Xử lý trường hợp gặp lỗi
+            binding.progressBar.visibility = View.GONE
+            binding.txtEmpty.text = "Vui lòng đăng nhập để sử dụng tính năng này"
             binding.txtEmpty.visibility = View.VISIBLE
             binding.recyclerViewFavorites.visibility = View.GONE
-        } else {
-            binding.txtEmpty.visibility = View.GONE
-            binding.recyclerViewFavorites.visibility = View.VISIBLE
-
-
-            favoritesAdapter = PopularAdapter(ArrayList(favoritesList))
-            binding.recyclerViewFavorites.layoutManager = GridLayoutManager(this, 2)
-            binding.recyclerViewFavorites.adapter = favoritesAdapter
         }
+
     }
 
     override fun onResume() {
